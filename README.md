@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Goal of this project is to leverage the data lake house to meet the organizations needs on the type of data on which they want to process or to perform analytics and the proposed architecture will help to accelerate the start-off process.
+The Goal of this project is to leverage the data lake house to meet the organizations needs to process or to perform analytics on the data and the proposed architecture will help to accelerate the start-off process.
 
 ## Logical Architecture –
 
