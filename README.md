@@ -85,9 +85,9 @@ Server=servername;Database=DBName;User Id=username;Password=Pswd;
 3. Create a Cluster
 You will have to create a cluster of your preferred after you launch the databricks workspace. There are many cluster configuration options, which are described in detail in cluster configuration.
 
-4. Install Modules on to the Cluster
-Step1: Select the cluster created.
-Step2: Select Libraries => Install New => Select Library Source = "Maven" => Coordinates => Search Packages => Select Maven Central => Search for the package required. Example: (GDAL) => Select the version (3.0.0) required => Install
+4. Install Modules on to the Cluster  
+    Step1: Select the cluster created.  
+    Step2: Select Libraries => Install New => Select Library Source = "Maven" => Coordinates => Search Packages => Select Maven Central => Search for the package required. Example: (GDAL) => Select the version (3.0.0) required => Install
 
 ## Data Pipelines
 ### How to build a ADF pipeline -
