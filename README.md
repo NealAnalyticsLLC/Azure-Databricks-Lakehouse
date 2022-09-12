@@ -100,8 +100,8 @@ Consider, you are creating pipeline for On Premises SQL server as source, then b
 
     ![Key vault](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Key%20vault.png)
 
-You can refer below link for creation of linked service –
-<https://docs.microsoft.com/en-us/azure/data-factory/concepts-linked-services?tabs=data-factory>
+    You can refer below link for creation of linked service –  
+    <https://docs.microsoft.com/en-us/azure/data-factory/concepts-linked-services?tabs=data-factory>
 
 3. Create new datasets for source and sink. Source dataset will point to the source and use linked service created in previous step. And sink dataset will point to ADLS linked service created through deployment.
 Follow below link for more details about creating dataset.
