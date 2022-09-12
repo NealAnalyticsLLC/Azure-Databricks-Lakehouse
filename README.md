@@ -43,7 +43,7 @@ The following configurations are required and needs to be done after deployment-
 You need to run the SQL script shared with code in Azure SQL DB to create below meta data tables.
 
     ER Diagram –
-    ![MetaData Tables](https://github.com/NealAnalyticsLLC/Enterprise-Data-Warehouse-AzureSynapse/blob/dev/piyush/images/MetaData%20Tables.png)
+    ![MetaData Tables](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/MetaData%20Tables.png)
 
     1. SourceToStaging – Purpose of this table is to store source related details and data lake storage details which will be useful in data pipeline to copy data from source to ADLS.
     Example:
@@ -98,7 +98,7 @@ Consider, you are creating pipeline for On Premises SQL server as source, then b
 
 2. For connecting to the source data server, create Linked Service which will connect to source using credentials stored in azure key vault secret. Fetch the connection secret using Key vault linked service which is created in deployment as shown in below image.
 
-    ![Key vault](https://github.com/NealAnalyticsLLC/Enterprise-Data-Warehouse-AzureSynapse/blob/dev/piyush/images/Key%20vault.png)
+    ![Key vault](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Key%20vault.png)
 
 You can refer below link for creation of linked service –
 <https://docs.microsoft.com/en-us/azure/data-factory/concepts-linked-services?tabs=data-factory>
@@ -111,7 +111,7 @@ Follow below link for more details about creating dataset.
 <https://docs.microsoft.com/en-us/azure/data-factory/quickstart-create-data-factory-portal>
 You can refer below screenshot to create pipeline to copy data from source and store into Databricks delta tables. In this pipeline data is copied from On-Prem SQL server using input from Azure SQL Db and this data is stored into ADLS. Further data is transformed and stored into different layers of delta tables like Bronze, Silver and Gold.
 
-    ![Master Pipeline](https://github.com/NealAnalyticsLLC/Enterprise-Data-Warehouse-AzureSynapse/blob/dev/piyush/images/Master%20Pipeline.png)
+    ![Master Pipeline](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Master%20Pipeline.png)
 
 
 There are 4 types of pipelines that can be build depending on the requirements.
@@ -154,7 +154,7 @@ When you publish a report to the Power BI service, you can enable users to acces
     - Go to the underlying Azure Databricks dataset for the report in the Power BI service, expand Data source credentials, and click Edit credentials.
     - On the configuration dialog, select Report viewers can only access this data source with their own Power BI identities using Direct Query and click Sign in.
     	
-        ![Config]()
+        ![Config](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Power%20BI.png)
 
 
 With this option selected, access to the data source is handled using DirectQuery and managed using the Azure AD identity of the user who is accessing the report. If you don’t select this option, only you, as the user who published the report, have access to the Azure Databricks data source.
