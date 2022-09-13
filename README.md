@@ -39,34 +39,34 @@ On the top you’ll see several parameters defined as follows:
 ## Configuration
 The following configurations are required and needs to be done after deployment-
 
-1. Meta Data SQL Database  
+1. **Meta Data SQL Database**  
 You need to run the SQL script shared with code in Azure SQL DB to create below meta data tables.
 
-    ER Diagram –  
+    **ER Diagram** –  
     ![MetaData Tables](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/MetaData%20Tables.png)
 
-    1. SourceToRaw – Purpose of this table is to store source related details and data lake storage details which will be useful in data pipeline to copy data from source to ADLS.
+    1. **SourceToRaw** – Purpose of this table is to store source related details and data lake storage details which will be useful in data pipeline to copy data from source to ADLS.
     Example:
         ```
         INSERT INTO [dbo].[SourceToRaw]  ([ServerName], [DatabaseName], [SchemaName], [TableName], [Query], [ConnectionSecret], [DataLakeContainer], [DataLakeDirectory], [DataLakeFileName])
         VALUES ('DESKTOPServer', 'Adventure Works', 'SalesLT', 'Address', 'Select * from SalesLT.Address','ADLSConnection', 'Staging', 'AdventureWorks','Address.parquet')
         ```
 
-    2. ActivityLogs – This table will store the logs of copy activities used to copy data from the source and logs of pipeline execution.
+    2. **ActivityLogs** – This table will store the logs of copy activities used to copy data from the source and logs of pipeline execution.
     Example:
         ```
         INSERT INTO [dbo].[ActivityLogs] ([activity_id], [activity_name], [activity_type], [pipeline_id], [pipeline_name], [pipeline_run_id], [trigger_id], [event_status], [pipeline_exe_status], [rows_processed], [started_dttm], [finished_dttm], [datetime_created], [datetime_modified], [updated_by])
         VALUES ('f2068677-4d6e-45bc-b9d2-5a2bcd730a87', 'cp_sql_data_to_raw', 'copy activity', 'fe6b50cc-07c4-4043-abb5-c976996db009', 'PL_SQL_Source_To_Raw', 'd774c88b-3ddd-4305-b54b-1382d056b407', 'b54f5cf6-9853-4422-9562-f8e15718dc5f', 'Succeeded', 'Succeeded', '15', '2022-04-07 05:40:59.363', '2022-04-07 05:40:59.363', '2022-04-07 05:40:59.363', '2022-04-07 05:40:59.363','org\user1')
         ```
 
-2. Key vault Secrets  
+2. **Key vault Secrets**  
 You will need to add one more secret for connecting to the data source. For example, if your data source is On-Prem SQL server then value of secret will be in following format:
 Server=servername;Database=DBName;User Id=username;Password=Pswd;
 
-3. Create a Cluster  
+3. **Create a Cluster**  
 You will have to create a cluster of your preferred after you launch the databricks workspace. There are many cluster configuration options, which are described in detail in cluster configuration.
 
-4. Install Modules on to the Cluster  
+4. **Install Modules on to the Cluster**  
     Step1: Select the cluster created.  
     Step2: Select Libraries => Install New => Select Library Source = "Maven" => Coordinates => Search Packages => Select Maven Central => Search for the package required. Example: (GDAL) => Select the version (3.0.0) required => Install
 
