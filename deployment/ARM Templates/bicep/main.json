@@ -1,0 +1,1511 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.1318.3566",
+      "templateHash": "3700594122820775556"
+    }
+  },
+  "parameters": {
+    "subscriptionId": {
+      "type": "string",
+      "defaultValue": "[subscription().subscriptionId]"
+    },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "[subscription().tenantId]"
+    },
+    "deployment_location": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "project_name": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "env": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "sql_admin_user": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "sql_admin_password": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "sqldw_admin_user": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "sqldw_admin_password": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "servers_admin_sid": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "servers_admin_name": {
+      "type": "string",
+      "defaultValue": ""
+    }
+  },
+  "variables": {
+    "resourceprefix": "[take(uniqueString(deployment().name), 5)]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2020-10-01",
+      "name": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
+      "location": "[parameters('deployment_location')]",
+      "tags": {
+        "Environment": "Dev",
+        "ProjectName": "NDPF",
+        "Billable": "No",
+        "Budget": "1000"
+      }
+    },
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2020-10-01",
+      "name": "[format('rg-{0}-datagovernance-dev-001', parameters('project_name'))]",
+      "location": "[parameters('deployment_location')]",
+      "tags": {
+        "Environment": "Dev",
+        "ProjectName": "NDPF",
+        "Billable": "No",
+        "Budget": "1000"
+      }
+    },
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2020-10-01",
+      "name": "[format('rg-{0}-management-dev-001', parameters('project_name'))]",
+      "location": "[parameters('deployment_location')]",
+      "tags": {
+        "Environment": "Dev",
+        "ProjectName": "NDPF",
+        "Billable": "No",
+        "Budget": "1000"
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('adf-{0}', variables('resourceprefix'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "project_name": {
+            "value": "[parameters('project_name')]"
+          },
+          "env": {
+            "value": "[parameters('env')]"
+          },
+          "subscriptionId": {
+            "value": "[parameters('subscriptionId')]"
+          },
+          "location": {
+            "value": "[parameters('deployment_location')]"
+          },
+          "log_analytics_workspace_id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+          },
+          "sqldb_metadata_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_db_name.value]"
+          },
+          "servers_metadata_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_server_name.value]"
+          },
+          "vaults_BIKeyVault_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.vaults_BIKeyVault_name.value]"
+          },
+          "servers_datawarehouse_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))).outputs.sqldw_server_name.value]"
+          },
+          "storageAccounts_datalake_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_name.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1318.3566",
+              "templateHash": "14661706180739427763"
+            }
+          },
+          "parameters": {
+            "subscriptionId": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            },
+            "project_name": {
+              "type": "string",
+              "defaultValue": "enterprisebi"
+            },
+            "vaults_BIKeyVault_name": {
+              "type": "string"
+            },
+            "dataFactories_adf_name": {
+              "type": "string",
+              "defaultValue": "[format('adf-{0}-{1}', parameters('project_name'), parameters('env'))]"
+            },
+            "storageAccounts_datalake_name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string",
+              "defaultValue": "V2"
+            },
+            "vNetEnabled": {
+              "type": "bool",
+              "defaultValue": true
+            },
+            "log_analytics_workspace_id": {
+              "type": "string"
+            },
+            "privateEndpoints_adls_private_endpoint_name": {
+              "type": "string",
+              "defaultValue": "[format('adls-private-endpoint-{0}', parameters('env'))]"
+            },
+            "env": {
+              "type": "string",
+              "defaultValue": "dev",
+              "metadata": {
+                "description": "Deployment environment"
+              }
+            },
+            "servers_datawarehouse_name": {
+              "type": "string",
+              "metadata": {
+                "description": "Name of the resource"
+              }
+            },
+            "sqldb_metadata_name": {
+              "type": "string"
+            },
+            "servers_metadata_name": {
+              "type": "string"
+            },
+            "akvbaseURL": {
+              "type": "string",
+              "defaultValue": "[format('https://{0}.vault.azure.net', parameters('vaults_BIKeyVault_name'))]"
+            },
+            "adlsURL": {
+              "type": "string",
+              "defaultValue": "[format('https://{0}.dfs.core.windows.net', parameters('storageAccounts_datalake_name'))]"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.DataFactory/factories",
+              "apiVersion": "2018-06-01",
+              "name": "[parameters('dataFactories_adf_name')]",
+              "location": "[parameters('location')]",
+              "identity": {
+                "type": "SystemAssigned"
+              }
+            },
+            {
+              "type": "Microsoft.Insights/diagnosticSettings",
+              "apiVersion": "2021-05-01-preview",
+              "scope": "[format('Microsoft.DataFactory/factories/{0}', parameters('dataFactories_adf_name'))]",
+              "name": "diagnostic",
+              "properties": {
+                "workspaceId": "[parameters('log_analytics_workspace_id')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
+              ]
+            },
+            {
+              "condition": "[and(equals(parameters('version'), 'V2'), parameters('vNetEnabled'))]",
+              "type": "Microsoft.DataFactory/factories/managedVirtualNetworks",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'default')]",
+              "properties": {},
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
+              ]
+            },
+            {
+              "condition": "[and(equals(parameters('version'), 'V2'), parameters('vNetEnabled'))]",
+              "type": "Microsoft.DataFactory/factories/integrationRuntimes",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'AutoResolveIntegrationRuntime')]",
+              "properties": {
+                "type": "Managed",
+                "managedVirtualNetwork": {
+                  "referenceName": "default",
+                  "type": "ManagedVirtualNetworkReference"
+                },
+                "typeProperties": {
+                  "computeProperties": {
+                    "location": "AutoResolve"
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]",
+                "[resourceId('Microsoft.DataFactory/factories/managedVirtualNetworks', parameters('dataFactories_adf_name'), 'default')]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}/{2}', parameters('dataFactories_adf_name'), 'default', parameters('privateEndpoints_adls_private_endpoint_name'))]",
+              "properties": {
+                "groupId": "blob",
+                "privateLinkResourceId": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Storage/storageAccounts/{2}', parameters('subscriptionId'), resourceGroup().name, parameters('storageAccounts_datalake_name'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]",
+                "[resourceId('Microsoft.DataFactory/factories/managedVirtualNetworks', parameters('dataFactories_adf_name'), 'default')]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}/{2}', parameters('dataFactories_adf_name'), 'default', parameters('sqldb_metadata_name'))]",
+              "properties": {
+                "groupId": "sqlServer",
+                "privateLinkResourceId": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Sql/servers/{2}', parameters('subscriptionId'), resourceGroup().name, parameters('servers_metadata_name'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]",
+                "[resourceId('Microsoft.DataFactory/factories/managedVirtualNetworks', parameters('dataFactories_adf_name'), 'default')]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}/{2}', parameters('dataFactories_adf_name'), 'default', parameters('vaults_BIKeyVault_name'))]",
+              "properties": {
+                "groupId": "vault",
+                "privateLinkResourceId": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.KeyVault/vaults/{2}', parameters('subscriptionId'), resourceGroup().name, parameters('vaults_BIKeyVault_name'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]",
+                "[resourceId('Microsoft.DataFactory/factories/managedVirtualNetworks', parameters('dataFactories_adf_name'), 'default')]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}/{2}', parameters('dataFactories_adf_name'), 'default', parameters('servers_datawarehouse_name'))]",
+              "properties": {
+                "groupId": "sqlServer",
+                "privateLinkResourceId": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Sql/servers/{2}', parameters('subscriptionId'), resourceGroup().name, parameters('servers_datawarehouse_name'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]",
+                "[resourceId('Microsoft.DataFactory/factories/managedVirtualNetworks', parameters('dataFactories_adf_name'), 'default')]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/linkedservices",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'AzureKeyVaultLinkedService')]",
+              "properties": {
+                "annotations": [],
+                "description": "string",
+                "parameters": {},
+                "type": "AzureKeyVault",
+                "typeProperties": {
+                  "baseUrl": "[parameters('akvbaseURL')]"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/linkedservices",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'ADLS2LinkedService')]",
+              "properties": {
+                "annotations": [],
+                "description": "string",
+                "parameters": {},
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                  "accountKey": {
+                    "type": "AzureKeyVaultSecret",
+                    "store": {
+                      "referenceName": "AzureKeyVaultLinkedService",
+                      "type": "LinkedServiceReference"
+                    },
+                    "secretName": "ADLSKey"
+                  },
+                  "url": "[parameters('adlsURL')]"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories/linkedservices', parameters('dataFactories_adf_name'), 'AzureKeyVaultLinkedService')]",
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/linkedservices",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'AzureSQLDBLinkedService')]",
+              "properties": {
+                "annotations": [],
+                "description": "string",
+                "parameters": {},
+                "type": "AzureSqlDatabase",
+                "typeProperties": {
+                  "connectionString": {
+                    "type": "AzureKeyVaultSecret",
+                    "store": {
+                      "referenceName": "AzureKeyVaultLinkedService",
+                      "type": "LinkedServiceReference"
+                    },
+                    "secretName": "AzureSQLDBConnection"
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories/linkedservices', parameters('dataFactories_adf_name'), 'AzureKeyVaultLinkedService')]",
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/linkedservices",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'SynapseLinkedService')]",
+              "properties": {
+                "annotations": [],
+                "type": "AzureSqlDW",
+                "typeProperties": {
+                  "connectionString": {
+                    "type": "AzureKeyVaultSecret",
+                    "store": {
+                      "referenceName": "AzureKeyVaultLinkedService",
+                      "type": "LinkedServiceReference"
+                    },
+                    "secretName": "SynDBConnection"
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories/linkedservices', parameters('dataFactories_adf_name'), 'AzureKeyVaultLinkedService')]",
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.DataFactory/factories/linkedservices",
+              "apiVersion": "2018-06-01",
+              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'SynapseMasterDBLinkedService')]",
+              "properties": {
+                "annotations": [],
+                "type": "AzureSqlDW",
+                "typeProperties": {
+                  "connectionString": {
+                    "type": "AzureKeyVaultSecret",
+                    "store": {
+                      "referenceName": "AzureKeyVaultLinkedService",
+                      "type": "LinkedServiceReference"
+                    },
+                    "secretName": "SynMasterDBConnection"
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DataFactory/factories/linkedservices', parameters('dataFactories_adf_name'), 'AzureKeyVaultLinkedService')]",
+                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "adf_name": {
+              "type": "string",
+              "value": "[parameters('dataFactories_adf_name')]"
+            },
+            "dataFactories_adls_managed_endpoint": {
+              "type": "string",
+              "value": "[parameters('privateEndpoints_adls_private_endpoint_name')]"
+            },
+            "dataFactories_adf_name_resource": {
+              "type": "string",
+              "value": "[parameters('dataFactories_adf_name')]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('metadata-{0}', variables('resourceprefix'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "servers_admin_sid": {
+            "value": "[parameters('servers_admin_sid')]"
+          },
+          "servers_admin_name": {
+            "value": "[parameters('servers_admin_name')]"
+          },
+          "tenantId": {
+            "value": "[parameters('tenantId')]"
+          },
+          "project_name": {
+            "value": "[parameters('project_name')]"
+          },
+          "env": {
+            "value": "[parameters('env')]"
+          },
+          "sql_admin_user": {
+            "value": "[parameters('sql_admin_user')]"
+          },
+          "sql_admin_password": {
+            "value": "[parameters('sql_admin_password')]"
+          },
+          "sqldw_admin_user": {
+            "value": "[parameters('sqldw_admin_user')]"
+          },
+          "sqldw_admin_password": {
+            "value": "[parameters('sqldw_admin_password')]"
+          },
+          "sqldw_server_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))).outputs.sqldw_server_name.value]"
+          },
+          "sqldw_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))).outputs.sqldw_server_name.value]"
+          },
+          "subscriptionId": {
+            "value": "[parameters('subscriptionId')]"
+          },
+          "location": {
+            "value": "[parameters('deployment_location')]"
+          },
+          "log_analytics_workspace_id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+          },
+          "adls_resource_id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_resource_id.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1318.3566",
+              "templateHash": "7351024739960642549"
+            }
+          },
+          "parameters": {
+            "subscriptionId": {
+              "type": "string",
+              "defaultValue": "[subscription().subscriptionId]"
+            },
+            "tenantId": {
+              "type": "string",
+              "defaultValue": "[subscription().tenantId]"
+            },
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            },
+            "project_name": {
+              "type": "string"
+            },
+            "vaults_BIKeyVault_name": {
+              "type": "string",
+              "defaultValue": "[format('kv{0}{1}777', parameters('project_name'), parameters('env'))]"
+            },
+            "storageAccounts_datalake_name": {
+              "type": "string",
+              "defaultValue": "[format('dls{0}{1}', parameters('project_name'), parameters('env'))]"
+            },
+            "log_analytics_workspace_id": {
+              "type": "string"
+            },
+            "env": {
+              "type": "string",
+              "defaultValue": "dev",
+              "metadata": {
+                "description": "Deployment environment"
+              }
+            },
+            "sqldb_metadata_name": {
+              "type": "string",
+              "defaultValue": "[format('sqldb-{0}-{1}', parameters('project_name'), parameters('env'))]",
+              "metadata": {
+                "description": "Name of the resource"
+              }
+            },
+            "servers_metadata_name": {
+              "type": "string",
+              "defaultValue": "[format('sqldbserver-{0}-{1}', parameters('project_name'), parameters('env'))]"
+            },
+            "servers_admin_name": {
+              "type": "string"
+            },
+            "sql_admin_user": {
+              "type": "string"
+            },
+            "sql_admin_password": {
+              "type": "string"
+            },
+            "servers_admin_sid": {
+              "type": "string"
+            },
+            "adls_resource_id": {
+              "type": "string"
+            },
+            "sqldw_admin_user": {
+              "type": "string"
+            },
+            "sqldw_admin_password": {
+              "type": "string"
+            },
+            "sqldw_server_name": {
+              "type": "string"
+            },
+            "sqldw_name": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Sql/servers",
+              "apiVersion": "2019-06-01-preview",
+              "name": "[parameters('servers_metadata_name')]",
+              "location": "[parameters('location')]",
+              "tags": {},
+              "identity": {
+                "type": "SystemAssigned"
+              },
+              "properties": {
+                "administratorLogin": "[parameters('sql_admin_user')]",
+                "administratorLoginPassword": "[parameters('sql_admin_password')]",
+                "version": "12.0",
+                "minimalTlsVersion": "1.2",
+                "publicNetworkAccess": "Enabled"
+              }
+            },
+            {
+              "type": "Microsoft.Sql/servers/administrators",
+              "apiVersion": "2019-06-01-preview",
+              "name": "[format('{0}/{1}', parameters('servers_metadata_name'), 'ActiveDirectory')]",
+              "properties": {
+                "administratorType": "ActiveDirectory",
+                "login": "[parameters('servers_admin_name')]",
+                "sid": "[parameters('servers_admin_sid')]",
+                "tenantId": "[parameters('tenantId')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_metadata_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Sql/servers/databases",
+              "apiVersion": "2020-08-01-preview",
+              "name": "[format('{0}/{1}', parameters('servers_metadata_name'), parameters('sqldb_metadata_name'))]",
+              "location": "[parameters('location')]",
+              "tags": {},
+              "sku": {
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 20
+              },
+              "kind": "v12.0,user",
+              "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "maxSizeBytes": 2147483648,
+                "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+                "zoneRedundant": false,
+                "readScale": "Disabled",
+                "storageAccountType": "LRS"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('servers_metadata_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Insights/diagnosticSettings",
+              "apiVersion": "2021-05-01-preview",
+              "scope": "[format('Microsoft.Sql/servers/{0}/databases/{1}', parameters('servers_metadata_name'), parameters('sqldb_metadata_name'))]",
+              "name": "diagnostic",
+              "properties": {
+                "workspaceId": "[parameters('log_analytics_workspace_id')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_metadata_name'), parameters('sqldb_metadata_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.KeyVault/vaults",
+              "apiVersion": "2021-11-01-preview",
+              "name": "[parameters('vaults_BIKeyVault_name')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "sku": {
+                  "family": "A",
+                  "name": "standard"
+                },
+                "tenantId": "[parameters('tenantId')]",
+                "networkAcls": {
+                  "bypass": "AzureServices",
+                  "defaultAction": "Deny",
+                  "ipRules": [],
+                  "virtualNetworkRules": []
+                },
+                "accessPolicies": [],
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": true,
+                "enableRbacAuthorization": false,
+                "vaultUri": "[format('https://{0}.vault.azure.net/', parameters('vaults_BIKeyVault_name'))]",
+                "provisioningState": "Succeeded",
+                "publicNetworkAccess": "Enabled",
+                "softDeleteRetentionInDays": 7
+              }
+            },
+            {
+              "type": "Microsoft.Insights/diagnosticSettings",
+              "apiVersion": "2021-05-01-preview",
+              "scope": "[format('Microsoft.KeyVault/vaults/{0}', parameters('vaults_BIKeyVault_name'))]",
+              "name": "diagnostic_keyvault",
+              "properties": {
+                "workspaceId": "[parameters('log_analytics_workspace_id')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_BIKeyVault_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.KeyVault/vaults/secrets",
+              "apiVersion": "2021-11-01-preview",
+              "name": "[format('{0}/{1}', parameters('vaults_BIKeyVault_name'), 'AzureSQLDBConnection')]",
+              "properties": {
+                "contentType": "string",
+                "value": "[format('Server={0}.database.windows.net;Database={1};User Id={2};Password={3}', parameters('servers_metadata_name'), parameters('sqldb_metadata_name'), parameters('sql_admin_user'), parameters('sql_admin_password'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_BIKeyVault_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.KeyVault/vaults/secrets",
+              "apiVersion": "2021-11-01-preview",
+              "name": "[format('{0}/{1}', parameters('vaults_BIKeyVault_name'), 'SynDBConnection')]",
+              "properties": {
+                "contentType": "string",
+                "value": "[format('Server={0}.database.windows.net;Database={1};User Id={2};Password={3}', parameters('sqldw_server_name'), parameters('sqldw_name'), parameters('sqldw_admin_user'), parameters('sqldw_admin_password'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_BIKeyVault_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.KeyVault/vaults/secrets",
+              "apiVersion": "2021-11-01-preview",
+              "name": "[format('{0}/{1}', parameters('vaults_BIKeyVault_name'), 'SynMasterDBConnection')]",
+              "properties": {
+                "contentType": "string",
+                "value": "[format('Server={0}.database.windows.net;Database=master;User Id={1};Password={2}', parameters('sqldw_server_name'), parameters('sqldw_admin_user'), parameters('sqldw_admin_password'))]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_BIKeyVault_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.KeyVault/vaults/secrets",
+              "apiVersion": "2021-11-01-preview",
+              "name": "[format('{0}/{1}', parameters('vaults_BIKeyVault_name'), 'ADLSKey')]",
+              "properties": {
+                "contentType": "string",
+                "value": "[listKeys(parameters('adls_resource_id'), '2019-04-01').keys[0].value]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_BIKeyVault_name'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "sql_db_name": {
+              "type": "string",
+              "value": "[parameters('servers_metadata_name')]"
+            },
+            "sql_db_resource_id": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Sql/servers', parameters('servers_metadata_name'))]"
+            },
+            "sql_server_name": {
+              "type": "string",
+              "value": "[parameters('servers_metadata_name')]"
+            },
+            "vaults_BIKeyVault_name": {
+              "type": "string",
+              "value": "[parameters('vaults_BIKeyVault_name')]"
+            },
+            "sqldb_connection_secret": {
+              "type": "string",
+              "value": "AzureSQLDBConnection"
+            },
+            "sqldw_connection_secret": {
+              "type": "string",
+              "value": "SynDBConnection"
+            },
+            "sqldwmasterDB_connection_secret": {
+              "type": "string",
+              "value": "SynMasterDBConnection"
+            },
+            "adlskey_secret": {
+              "type": "string",
+              "value": "ADLSKey"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('synapse-{0}', variables('resourceprefix'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "project_name": {
+            "value": "[parameters('project_name')]"
+          },
+          "env": {
+            "value": "[parameters('env')]"
+          },
+          "sqldw_admin_user": {
+            "value": "[parameters('sql_admin_user')]"
+          },
+          "sqldw_admin_password": {
+            "value": "[parameters('sqldw_admin_password')]"
+          },
+          "location": {
+            "value": "[parameters('deployment_location')]"
+          },
+          "servers_admin_name": {
+            "value": "[parameters('servers_admin_name')]"
+          },
+          "servers_admin_sid": {
+            "value": "[parameters('servers_admin_sid')]"
+          },
+          "tenantId": {
+            "value": "[parameters('tenantId')]"
+          },
+          "log_analytics_workspace_id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1318.3566",
+              "templateHash": "11882502647677053235"
+            }
+          },
+          "parameters": {
+            "project_name": {
+              "type": "string"
+            },
+            "env": {
+              "type": "string"
+            },
+            "sqldw_server_name": {
+              "type": "string",
+              "defaultValue": "[format('syndwserver-{0}-{1}', parameters('project_name'), parameters('env'))]"
+            },
+            "sqldw_name": {
+              "type": "string",
+              "defaultValue": "[format('syndw-{0}-{1}', parameters('project_name'), parameters('env'))]"
+            },
+            "sqldw_admin_user": {
+              "type": "string"
+            },
+            "sqldw_admin_password": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "servers_admin_name": {
+              "type": "string"
+            },
+            "servers_admin_sid": {
+              "type": "string"
+            },
+            "tenantId": {
+              "type": "string"
+            },
+            "log_analytics_workspace_id": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Sql/servers",
+              "apiVersion": "2019-06-01-preview",
+              "name": "[parameters('sqldw_server_name')]",
+              "location": "[parameters('location')]",
+              "tags": {},
+              "identity": {
+                "type": "SystemAssigned"
+              },
+              "properties": {
+                "administratorLogin": "[parameters('sqldw_admin_user')]",
+                "administratorLoginPassword": "[parameters('sqldw_admin_password')]",
+                "version": "12.0",
+                "minimalTlsVersion": "1.2",
+                "publicNetworkAccess": "Enabled"
+              }
+            },
+            {
+              "type": "Microsoft.Sql/servers/administrators",
+              "apiVersion": "2019-06-01-preview",
+              "name": "[format('{0}/{1}', parameters('sqldw_server_name'), 'ActiveDirectory')]",
+              "properties": {
+                "administratorType": "ActiveDirectory",
+                "login": "[parameters('servers_admin_name')]",
+                "sid": "[parameters('servers_admin_sid')]",
+                "tenantId": "[parameters('tenantId')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('sqldw_server_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Sql/servers/databases",
+              "apiVersion": "2020-08-01-preview",
+              "name": "[format('{0}/{1}', parameters('sqldw_server_name'), parameters('sqldw_name'))]",
+              "location": "[parameters('location')]",
+              "tags": {},
+              "sku": {
+                "name": "DataWarehouse",
+                "tier": "DataWarehouse",
+                "capacity": 900
+              },
+              "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', parameters('sqldw_server_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Insights/diagnosticSettings",
+              "apiVersion": "2021-05-01-preview",
+              "scope": "[format('Microsoft.Sql/servers/{0}/databases/{1}', parameters('sqldw_server_name'), parameters('sqldw_name'))]",
+              "name": "diagnostic",
+              "properties": {
+                "workspaceId": "[parameters('log_analytics_workspace_id')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('sqldw_server_name'), parameters('sqldw_name'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "sqldw_name": {
+              "type": "string",
+              "value": "[parameters('sqldw_server_name')]"
+            },
+            "sqldw_resource_id": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Sql/servers', parameters('sqldw_server_name'))]"
+            },
+            "sqldw_server_name": {
+              "type": "string",
+              "value": "[parameters('sqldw_server_name')]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('monitoring-{0}', variables('resourceprefix'))]",
+      "resourceGroup": "[format('rg-{0}-management-dev-001', parameters('project_name'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "project_name": {
+            "value": "[parameters('project_name')]"
+          },
+          "location": {
+            "value": "[parameters('deployment_location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1318.3566",
+              "templateHash": "2186142192102476839"
+            }
+          },
+          "parameters": {
+            "log_analytics_workspace_name": {
+              "type": "string",
+              "defaultValue": "[format('log-{0}-dev', parameters('project_name'))]"
+            },
+            "project_name": {
+              "type": "string",
+              "defaultValue": "enterprisebi"
+            },
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.OperationalInsights/workspaces",
+              "apiVersion": "2021-12-01-preview",
+              "name": "[parameters('log_analytics_workspace_name')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "sku": {
+                  "name": "PerGB2018"
+                },
+                "retentionInDays": 30,
+                "features": {
+                  "enableLogAccessUsingOnlyResourcePermissions": true
+                },
+                "workspaceCapping": {
+                  "dailyQuotaGb": -1
+                },
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
+              }
+            }
+          ],
+          "outputs": {
+            "log_analytics_workspace_id": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('log_analytics_workspace_name'))]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-management-dev-001', parameters('project_name')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('storage-{0}', variables('resourceprefix'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "project_name": {
+            "value": "[parameters('project_name')]"
+          },
+          "location": {
+            "value": "[parameters('deployment_location')]"
+          },
+          "env": {
+            "value": "[parameters('env')]"
+          },
+          "log_analytics_workspace_id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1318.3566",
+              "templateHash": "2169654471188017348"
+            }
+          },
+          "parameters": {
+            "project_name": {
+              "type": "string",
+              "defaultValue": "enterprisebi"
+            },
+            "location": {
+              "type": "string"
+            },
+            "storageAccounts_datalake_name": {
+              "type": "string",
+              "defaultValue": "[format('dls{0}{1}', parameters('project_name'), parameters('env'))]"
+            },
+            "log_analytics_workspace_id": {
+              "type": "string"
+            },
+            "env": {
+              "type": "string",
+              "metadata": {
+                "description": "Deployment environment"
+              }
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+              "apiVersion": "2021-08-01",
+              "name": "[format('{0}/{1}/{2}', parameters('storageAccounts_datalake_name'), 'default', 'raw')]",
+              "properties": {
+                "publicAccess": "None"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_datalake_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalake_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+              "apiVersion": "2021-08-01",
+              "name": "[format('{0}/{1}/{2}', parameters('storageAccounts_datalake_name'), 'default', 'staging')]",
+              "properties": {
+                "publicAccess": "None"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_datalake_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalake_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts",
+              "apiVersion": "2021-08-01",
+              "name": "[parameters('storageAccounts_datalake_name')]",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+              },
+              "kind": "StorageV2",
+              "properties": {
+                "defaultToOAuthAuthentication": false,
+                "allowCrossTenantReplication": false,
+                "isSftpEnabled": false,
+                "minimumTlsVersion": "TLS1_2",
+                "allowBlobPublicAccess": true,
+                "allowSharedKeyAccess": true,
+                "isHnsEnabled": true,
+                "networkAcls": {
+                  "bypass": "AzureServices",
+                  "virtualNetworkRules": [],
+                  "ipRules": [],
+                  "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                  "requireInfrastructureEncryption": false,
+                  "services": {
+                    "file": {
+                      "keyType": "Account",
+                      "enabled": true
+                    },
+                    "blob": {
+                      "keyType": "Account",
+                      "enabled": true
+                    }
+                  },
+                  "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot",
+                "publicNetworkAccess": "Enabled"
+              },
+              "metadata": {
+                "description": "Name of the resource"
+              }
+            },
+            {
+              "type": "Microsoft.Insights/diagnosticSettings",
+              "apiVersion": "2021-05-01-preview",
+              "scope": "[format('Microsoft.Storage/storageAccounts/{0}', parameters('storageAccounts_datalake_name'))]",
+              "name": "diagnostic",
+              "properties": {
+                "workspaceId": "[parameters('log_analytics_workspace_id')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalake_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/blobServices",
+              "apiVersion": "2021-08-01",
+              "name": "[format('{0}/{1}', parameters('storageAccounts_datalake_name'), 'default')]",
+              "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+              },
+              "properties": {
+                "containerDeleteRetentionPolicy": {
+                  "enabled": true,
+                  "days": 7
+                },
+                "cors": {
+                  "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                  "enabled": true,
+                  "days": 7
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalake_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/fileServices",
+              "apiVersion": "2021-08-01",
+              "name": "[format('{0}/{1}', parameters('storageAccounts_datalake_name'), 'default')]",
+              "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+              },
+              "properties": {
+                "cors": {
+                  "corsRules": []
+                },
+                "shareDeleteRetentionPolicy": {
+                  "enabled": true,
+                  "days": 7
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalake_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/queueServices",
+              "apiVersion": "2021-08-01",
+              "name": "[format('{0}/{1}', parameters('storageAccounts_datalake_name'), 'default')]",
+              "properties": {
+                "cors": {
+                  "corsRules": []
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalake_name'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/tableServices",
+              "apiVersion": "2021-08-01",
+              "name": "[format('{0}/{1}', parameters('storageAccounts_datalake_name'), 'default')]",
+              "properties": {
+                "cors": {
+                  "corsRules": []
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalake_name'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "adls_resource_id": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_datalake_name'))]"
+            },
+            "adls_name": {
+              "type": "string",
+              "value": "[parameters('storageAccounts_datalake_name')]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('purview-{0}', variables('resourceprefix'))]",
+      "resourceGroup": "[format('rg-{0}-datagovernance-dev-001', parameters('project_name'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "project_name": {
+            "value": "[parameters('project_name')]"
+          },
+          "location": {
+            "value": "[parameters('deployment_location')]"
+          },
+          "env": {
+            "value": "[parameters('env')]"
+          },
+          "log_analytics_workspace_id": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1318.3566",
+              "templateHash": "3169693412681423392"
+            }
+          },
+          "parameters": {
+            "project_name": {
+              "type": "string"
+            },
+            "env": {
+              "type": "string",
+              "defaultValue": "dev",
+              "metadata": {
+                "description": "Deployment environment"
+              }
+            },
+            "purviewName": {
+              "type": "string",
+              "defaultValue": "[format('pview-{0}-{1}', parameters('project_name'), parameters('env'))]",
+              "metadata": {
+                "description": "Name of the resource"
+              }
+            },
+            "settingName": {
+              "type": "string",
+              "defaultValue": "diagnostics"
+            },
+            "log_analytics_workspace_id": {
+              "type": "string"
+            },
+            "vaults_BIKeyVault_name": {
+              "type": "string",
+              "defaultValue": "[format('kvpurview{0}104', parameters('env'))]"
+            },
+            "tenantId": {
+              "type": "string",
+              "defaultValue": "[subscription().tenantId]"
+            },
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Purview/accounts",
+              "apiVersion": "2020-12-01-preview",
+              "name": "[parameters('purviewName')]",
+              "location": "[parameters('location')]",
+              "identity": {
+                "type": "SystemAssigned"
+              },
+              "properties": {
+                "networkAcls": {
+                  "defaultAction": "Allow"
+                }
+              },
+              "sku": {
+                "name": "Standard",
+                "capacity": "4"
+              },
+              "tags": {}
+            },
+            {
+              "type": "Microsoft.Purview/accounts/providers/diagnosticSettings",
+              "apiVersion": "2017-05-01-preview",
+              "name": "[format('{0}/Microsoft.Insights/{1}', parameters('purviewName'), parameters('settingName'))]",
+              "properties": {
+                "workspaceId": "[parameters('log_analytics_workspace_id')]",
+                "logs": [
+                  {
+                    "category": "ScanStatusLogEvent",
+                    "enabled": true
+                  }
+                ],
+                "metrics": [
+                  {
+                    "category": "AllMetrics",
+                    "enabled": true
+                  }
+                ]
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Purview/accounts', parameters('purviewName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.KeyVault/vaults",
+              "apiVersion": "2021-11-01-preview",
+              "name": "[parameters('vaults_BIKeyVault_name')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "sku": {
+                  "family": "A",
+                  "name": "standard"
+                },
+                "tenantId": "[parameters('tenantId')]",
+                "networkAcls": {
+                  "bypass": "AzureServices",
+                  "defaultAction": "Deny",
+                  "ipRules": [],
+                  "virtualNetworkRules": []
+                },
+                "accessPolicies": [],
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": true,
+                "enableRbacAuthorization": false,
+                "vaultUri": "[format('https://{0}.vault.azure.net/', parameters('vaults_BIKeyVault_name'))]",
+                "provisioningState": "Succeeded",
+                "publicNetworkAccess": "Enabled",
+                "softDeleteRetentionInDays": 7
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datagovernance-dev-001', parameters('project_name')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('contributor-{0}', variables('resourceprefix'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "subscriptionId": {
+            "value": "[parameters('subscriptionId')]"
+          },
+          "adf_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('adf-{0}', variables('resourceprefix')))).outputs.adf_name.value]"
+          },
+          "adls_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_name.value]"
+          },
+          "sql_server_name": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_server_name.value]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.1318.3566",
+              "templateHash": "2332227198946609829"
+            }
+          },
+          "parameters": {
+            "subscriptionId": {
+              "type": "string"
+            },
+            "adf_name": {
+              "type": "string"
+            },
+            "adls_name": {
+              "type": "string"
+            },
+            "sql_server_name": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "SQLDBContributor": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/9b7fa17d-e63e-47b0-bb0a-15c516ac86ec', parameters('subscriptionId'))]",
+            "BlobDataContributor": "[format('/subscriptions/{0}/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe', parameters('subscriptionId'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2018-01-01-preview",
+              "scope": "[format('Microsoft.Sql/servers/{0}', parameters('sql_server_name'))]",
+              "name": "[guid('ADFSQLDBContributor')]",
+              "properties": {
+                "roleDefinitionId": "[variables('SQLDBContributor')]",
+                "principalId": "[reference(resourceId('Microsoft.DataFactory/factories', parameters('adf_name')), '2018-06-01', 'Full').identity.principalId]"
+              }
+            },
+            {
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2020-10-01-preview",
+              "scope": "[format('Microsoft.Storage/storageAccounts/{0}', parameters('adls_name'))]",
+              "name": "[guid('ADFBlobDataContributor')]",
+              "properties": {
+                "roleDefinitionId": "[variables('BlobDataContributor')]",
+                "principalId": "[reference(resourceId('Microsoft.DataFactory/factories', parameters('adf_name')), '2018-06-01', 'Full').identity.principalId]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('adf-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
+      ]
+    }
+  ]
+}

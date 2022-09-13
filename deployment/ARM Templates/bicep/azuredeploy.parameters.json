@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.1318.3566",
+      "templateHash": "836546417584824815"
+    }
+  },
+  "parameters": {
+    "deploymentlocation": {
+      "type": "string",
+      "defaultValue": "eastus2"
+    },
+    "subscriptionId": {
+      "type": "string",
+      "defaultValue": "cdf061dc-a659-4ff3-ba44-ab35210087a2"
+    },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "4fd354cb-e69d-49f6-b954-daf93d5cef95"
+    },
+    "project_name": {
+      "type": "string",
+      "defaultValue": "ndpftest"
+    },
+    "env": {
+      "type": "string",
+      "defaultValue": "dev"
+    },
+    "sql_admin_user": {
+      "type": "string",
+      "defaultValue": "sqladmin"
+    },
+    "sql_admin_password": {
+      "type": "string",
+      "defaultValue": "SASql1234!"
+    },
+    "sqldw_admin_user": {
+      "type": "string",
+      "defaultValue": "sqldwadmin"
+    },
+    "sqldw_admin_password": {
+      "type": "string",
+      "defaultValue": "SASql1234!"
+    },
+    "servers_admin_sid": {
+      "type": "string",
+      "defaultValue": "356cbc1d-a189-4950-957b-3460e4714eb6"
+    },
+    "servers_admin_name": {
+      "type": "string",
+      "defaultValue": "piyush@nealanalytics.com"
+    }
+  }
+  }
