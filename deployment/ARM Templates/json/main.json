@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1318.3566",
-      "templateHash": "5869242776969913649"
+      "templateHash": "9124878882062997507"
     }
   },
   "parameters": {
@@ -27,23 +27,23 @@
     },
     "env": {
       "type": "string",
-      "defaultValue": "dev"
+      "defaultValue": ""
     },
     "sql_admin_user": {
       "type": "string",
-      "defaultValue": "sqladmin"
+      "defaultValue": ""
     },
     "sql_admin_password": {
       "type": "secureString",
-      "defaultValue": "SASql1234!"
+      "defaultValue": ""
     },
     "servers_admin_sid": {
       "type": "string",
-      "defaultValue": "356cbc1d-a189-4950-957b-3460e4714eb6"
+      "defaultValue": ""
     },
     "servers_admin_name": {
       "type": "string",
-      "defaultValue": "piyush@nealanalytics.com"
+      "defaultValue": ""
     }
   },
   "variables": {
