@@ -103,18 +103,19 @@ There are 4 types of pipelines that can be build depending on the requirements.
 4. Quality Check Pipelines
 
 ## Data Bricks Notebooks
-We will be using the Data Bricks notebook to transform our data over 3 phases which will be bronze, silver, gold. But before that we need to mount our raw container from where we will be taking out data. To mount Data Bricks to a container you can refer to the below link.  
+To use the containers from ADLS first we have to mount those in Data Bricks. You can refer to the below link to mount your containers. 
 
 [Accessing Azure Data Lake Storage Gen2 and Blob Storage with Azure Databricks - Azure Databricks | Microsoft Docs](https://docs.microsoft.com/en-us/azure/databricks/data/data-sources/azure/azure-storage)
 
-After we mounted the container from where we are going to take the data and the container where we are going to store the data.  
+**RawToBronze** – This notebook is  for taking the data from raw zone and landing it into the bronze layer in delta format. No major transformation will take place in this layer.  
 
-First step is to create a notebook for taking the data from raw zone and landing it into the bronze layer in delta format. No major transformation will take place in this layer. 
+**BronzeToSilver** – This notebook is for taking the data from bronze layer to silver layer. Here we can perform the transformations on the data to achieve the enterprise view of all its key business entities, concept and transactions.  
 
-Second step is to create a notebook for taking the data from bronze layer to silver layer. Here we can perform the transformation activities to clean the data and store that into the silver layer. So that the silver layer can provide the enterprise view of all its key business entities, concept and transactions.  
+**SilverToGold** – This notebook is for taking the data from silver layer to the gold layer. Here we select the project / report specific data that we require by applying filter and joins for the final data transformation and applying the data quality rules and store it in the gold layer. This data is now ready for consumption we can take this final form of data and use it to create report etc.
+  
 
-The third step is to create a notebook for taking the data from silver layer to the gold layer. Here we select the project or report specific data that we require by applying joins and aggregations for the final data transformation and the data quality rules and the store it in the gold layer. This data is now ready for consumption and then we can take this final form of data and use it to create report etc.
 You can refer these notebooks [here](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/tree/dev/Sanket/notebooks).
+
 # Report Development
 ## How to use Data Bricks in Power BI
 To connect to Azure Databricks by using the Delta Sharing Connector, complete the following steps:
