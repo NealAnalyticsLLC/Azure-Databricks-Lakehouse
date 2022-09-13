@@ -42,7 +42,7 @@ The following configurations are required and needs to be done after deployment-
 1. Meta Data SQL Database  
 You need to run the SQL script shared with code in Azure SQL DB to create below meta data tables.
 
-    ER Diagram –
+    ER Diagram –  
     ![MetaData Tables](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/MetaData%20Tables.png)
 
     1. SourceToRaw – Purpose of this table is to store source related details and data lake storage details which will be useful in data pipeline to copy data from source to ADLS.
