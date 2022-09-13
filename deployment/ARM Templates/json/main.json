@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1318.3566",
-      "templateHash": "18102622839113296002"
+      "templateHash": "5869242776969913649"
     }
   },
   "parameters": {
@@ -23,7 +23,7 @@
     },
     "project_name": {
       "type": "string",
-      "defaultValue": "ndpftest"
+      "defaultValue": "enterprisebi-databricks"
     },
     "env": {
       "type": "string",

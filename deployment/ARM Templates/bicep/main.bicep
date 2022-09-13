@@ -2,14 +2,14 @@ targetScope = 'subscription'
 
 param subscriptionId string = subscription().subscriptionId
 param tenantId string = subscription().tenantId
-param deployment_location string = 'eastus'
-param project_name string = 'ndpftest'
+param deployment_location string = ''
+param project_name string = ''
 param env string ='dev'
-param sql_admin_user string = 'sqladmin'
+param sql_admin_user string = ''
 @secure()
-param sql_admin_password string = 'SASql1234!'
-param servers_admin_sid string = '356cbc1d-a189-4950-957b-3460e4714eb6'
-param servers_admin_name string = 'piyush@nealanalytics.com'
+param sql_admin_password string = ''
+param servers_admin_sid string = ''
+param servers_admin_name string = ''
 @description('adding prefix to every resource names')
 var resourceprefix = take(uniqueString(deployment().name),5)
 
