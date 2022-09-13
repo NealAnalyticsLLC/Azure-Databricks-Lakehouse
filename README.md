@@ -114,7 +114,7 @@ First step is to create a notebook for taking the data from raw zone and landing
 Second step is to create a notebook for taking the data from bronze layer to silver layer. Here we can perform the transformation activities to clean the data and store that into the silver layer. So that the silver layer can provide the enterprise view of all its key business entities, concept and transactions.  
 
 The third step is to create a notebook for taking the data from silver layer to the gold layer. Here we select the project or report specific data that we require by applying joins and aggregations for the final data transformation and the data quality rules and the store it in the gold layer. This data is now ready for consumption and then we can take this final form of data and use it to create report etc.
-
+You can refer these notebooks [here](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/tree/dev/Sanket/notebooks).
 # Report Development
 ## How to use Data Bricks in Power BI
 To connect to Azure Databricks by using the Delta Sharing Connector, complete the following steps:
