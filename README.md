@@ -8,6 +8,11 @@ The Goal of this project is to leverage the data lake house to meet the organiza
 
 ![Logical Architecture](./images/Technical%20Architecture.png)
 
+- **Azure Data Factory** use the metadata stored in **Azure SQL DB** and pull data from different data sources.
+- Azure Data Factory stores all the source data into **Data Lake Raw zone**.
+- Then we can move and transform the data from Data Lake Raw zone to Databricks **Bronze**, **Silver** and **Gold** layers.
+- Data stored in the Gold layer will be available for Power BI visualization.
+
 
 # Getting Started
 ## Prerequisites 
