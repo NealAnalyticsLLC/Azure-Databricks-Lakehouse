@@ -4,7 +4,7 @@
 
 The Goal of this project is to leverage the data lake house to meet the organizations needs to process or to perform analytics on the data and the proposed architecture will help to accelerate the start-off process.
 
-## Logical Architecture –
+## Logical Architecture
 
 ![Logical Architecture](./images/Technical%20Architecture.png)
 
@@ -41,28 +41,21 @@ Step 1:
 Open the main.bicep file from the downloaded package.
 On the top you’ll see several parameters defined as follows:
 
-## Configuration
-The following configurations are required and needs to be done after deployment-
+## Configurations
+The following configurations are required and needs to be done after deployment:
 
 1. **Meta Data SQL Database**  
-You need to run the SQL script shared with code in Azure SQL DB to create below meta data tables.
+You need to run the SQL script shared with code in Azure SQL DB to create below meta data table.
 
-    **ER Diagram** –  
-    ![MetaData Tables](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/MetaData%20Tables.png)
+    ![MetaData Table](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/MetaData%20Table.png)
 
-    1. **SourceToRaw** – Purpose of this table is to store source related details and data lake storage details which will be useful in data pipeline to copy data from source to ADLS.
+    - **SourceToRaw** – Purpose of this table is to store source related details and data lake storage details which will be useful in data pipeline to copy data from source to ADLS.
     Example:
         ```
         INSERT INTO [dbo].[SourceToRaw]  ([ServerName], [DatabaseName], [SchemaName], [TableName], [Query], [ConnectionSecret], [DataLakeContainer], [DataLakeDirectory], [DataLakeFileName])
         VALUES ('DESKTOPServer', 'Adventure Works', 'SalesLT', 'Address', 'Select * from SalesLT.Address','ADLSConnection', 'Staging', 'AdventureWorks','Address.parquet')
         ```
 
-    2. **ActivityLogs** – This table will store the logs of copy activities used to copy data from the source and logs of pipeline execution.
-    Example:
-        ```
-        INSERT INTO [dbo].[ActivityLogs] ([activity_id], [activity_name], [activity_type], [pipeline_id], [pipeline_name], [pipeline_run_id], [trigger_id], [event_status], [pipeline_exe_status], [rows_processed], [started_dttm], [finished_dttm], [datetime_created], [datetime_modified], [updated_by])
-        VALUES ('f2068677-4d6e-45bc-b9d2-5a2bcd730a87', 'cp_sql_data_to_raw', 'copy activity', 'fe6b50cc-07c4-4043-abb5-c976996db009', 'PL_SQL_Source_To_Raw', 'd774c88b-3ddd-4305-b54b-1382d056b407', 'b54f5cf6-9853-4422-9562-f8e15718dc5f', 'Succeeded', 'Succeeded', '15', '2022-04-07 05:40:59.363', '2022-04-07 05:40:59.363', '2022-04-07 05:40:59.363', '2022-04-07 05:40:59.363','org\user1')
-        ```
 
 2. **Key vault Secrets**  
 You will need to add one more secret for connecting to the data source. For example, if your data source is On-Prem SQL server then value of secret will be in following format:
@@ -76,7 +69,7 @@ You will have to create a cluster of your preferred after you launch the databri
     Step2: Select Libraries => Install New => Select Library Source = "Maven" => Coordinates => Search Packages => Select Maven Central => Search for the package required. Example: (GDAL) => Select the version (3.0.0) required => Install
 
 ## Data Pipelines
-### How to build a ADF pipeline -
+### How to build a ADF pipeline
 Consider, you are creating pipeline for On Premises SQL server as source, then basic steps of pipeline creation will be as follows:
 
 1. Create Integration Runtime based on access to your source. You can refer following link for creating Integration Runtime.
@@ -115,7 +108,7 @@ To take a look at different transformations performed in each layer, refer the n
 
 # Report Development
 ## How to use Data Bricks in Power BI
-To connect to Azure Databricks by using the Delta Sharing Connector, complete the following steps:
+**To connect to Azure Databricks by using the Delta Sharing Connector, complete the following steps:**
 
 1. Open Power BI Desktop.
 2. On the Get Data menu, search for Delta Sharing.
@@ -126,7 +119,7 @@ To connect to Azure Databricks by using the Delta Sharing Connector, complete th
 7. For Authentication, copy the token that you retrieved from the credentials file into Bearer Token.
 8. Click Connect.
 
-Access Azure Databricks data source using the Power BI service
+**Access Azure Databricks data source using the Power BI service**  
 When you publish a report to the Power BI service, you can enable users to access the report and underlying Azure Databricks data source using SSO:
 1. Publish your Power BI report from Power BI Desktop to the Power BI service.
 2. Enable single sign on (SSO) access to the report and underlying data source.
@@ -172,7 +165,7 @@ You can refer this [link](https://docs.microsoft.com/en-us/azure/databricks/inte
 
 ## Databricks Cluster
 - **Customize Cluster termination time** - Terminating inactive clusters saves costs. Databricks automatically terminates clusters based on a default down time. Customize the down time to avoid premature or delayed termination.
-- Enable cluster autoscaling - Databricks offers cluster autoscaling, which is disabled by default. Enable this feature to enhance job performance.
+- **Enable cluster autoscaling** - Databricks offers cluster autoscaling, which is disabled by default. Enable this feature to enhance job performance.
 
 
 
