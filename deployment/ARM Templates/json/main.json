@@ -9,14 +9,6 @@
     }
   },
   "parameters": {
-    "subscriptionId": {
-      "type": "string",
-      "defaultValue": "[subscription().subscriptionId]"
-    },
-    "tenantId": {
-      "type": "string",
-      "defaultValue": "[subscription().tenantId]"
-    },
     "deployment_location": {
       "type": "string",
       "defaultValue": "eastus"
@@ -47,6 +39,8 @@
     }
   },
   "variables": {
+    "subscriptionId": "[subscription().subscriptionId]",
+    "tenantId": "[subscription().tenantId]",
     "resourceprefix": "[take(uniqueString(deployment().name), 5)]"
   },
   "resources": [
