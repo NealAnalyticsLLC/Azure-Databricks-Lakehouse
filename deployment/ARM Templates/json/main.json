@@ -9,33 +9,33 @@
     }
   },
   "parameters": {
-    "deployment_location": {
+    "deploymentLocation": {
       "type": "string",
       "defaultValue": "eastus"
     },
-    "project_name": {
+    "projectName": {
       "type": "string",
-      "defaultValue": "ebidb"
+      "defaultValue": ""
     },
-    "env": {
+    "Environment": {
       "type": "string",
       "defaultValue": "dev"
     },
-    "sql_admin_user": {
+    "SqlAdminUser": {
       "type": "string",
-      "defaultValue": "sqladmin"
+      "defaultValue": ""
     },
-    "sql_admin_password": {
+    "SqlAdminPassword": {
       "type": "secureString",
-      "defaultValue": "SASql1234!"
+      "defaultValue": ""
     },
-    "servers_admin_sid": {
+    "SqlServerSID": {
       "type": "string",
-      "defaultValue": "356cbc1d-a189-4950-957b-3460e4714eb6"
+      "defaultValue": ""
     },
-    "servers_admin_name": {
+    "SqlServerAdminName": {
       "type": "string",
-      "defaultValue": "piyush@nealanalytics.com"
+      "defaultValue": ""
     }
   },
   "variables": {
