@@ -23,11 +23,11 @@ In order to successfully deploy this solution, you will need to have access to a
 ## AZURE RESOURCES DEPLOYMENT
 The resources in this folder can be used to deploy the required cloud services into your Azure Subscription. This can be done either via the [Azure Portal](https://portal.azure.com) or by using the [PowerShell script](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/deployment/ARM%20Templates/bicep/resourcedeployment.ps1) included in the deployment folder.
 
-After deployment, you will have an Azure Data Lake Storage Gen 2 Registry, Azure Data Factory, Azure Key Vault, Azure SQL Server, and Azure SQL Dedicated Pool along with Log Analytics.
+After deployment, you will have an Azure Data Lake Storage Gen 2 Registry, Azure Data Factory, Azure Key Vault, Azure SQL Server, and Azure Databricks along with Log Analytics.
 
 Resources can also be deployed into your Azure Subscription by using this link.
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FNealAnalyticsLLC%2FAzure-Databricks-Lakehouse%2Fdev%2FSanket%2Fdeployment%2FARM%2520Templates%2Fjson%2Fmain.json%3Ftoken%3DGHSAT0AAAAAABYM5LIQESHSAQIRAXBSEBSIYZABHWA)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FNealAnalyticsLLC%2FAzure-Databricks-Lakehouse%2Fdev%2FSanket%2Fdeployment%2FARM%2520Templates%2Fjson%2Fmain.json%3Ftoken%3DGHSAT0AAAAAABY7HYHC5TBKD5SDSGAC3EFGYZKSFQQ)
 
 **NOTE (for deploying using PowerShell script):**
 
