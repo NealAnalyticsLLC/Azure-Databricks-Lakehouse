@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\deployment",
+    "\\deployment\\ARM Templates",
+    "\\deployment\\ARM Templates\\bicep",
+    "\\deployment\\ARM Templates\\json"
+  ],
+  "SelectedNode": "\\deployment\\ARM Templates\\json\\main.json",
+  "PreviewInSolutionExplorer": false
+}

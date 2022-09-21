@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1318.3566",
-      "templateHash": "9124878882062997507"
+      "templateHash": "1370459380938120361"
     }
   },
   "parameters": {
@@ -23,27 +23,27 @@
     },
     "project_name": {
       "type": "string",
-      "defaultValue": "enterprisebi-databricks"
+      "defaultValue": "ebidb"
     },
     "env": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "dev"
     },
     "sql_admin_user": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "sqladmin"
     },
     "sql_admin_password": {
       "type": "secureString",
-      "defaultValue": ""
+      "defaultValue": "SASql1234!"
     },
     "servers_admin_sid": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "356cbc1d-a189-4950-957b-3460e4714eb6"
     },
     "servers_admin_name": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "piyush@nealanalytics.com"
     }
   },
   "variables": {
@@ -135,7 +135,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1318.3566",
-              "templateHash": "6020242850484255854"
+              "templateHash": "6912859716901670366"
             }
           },
           "parameters": {
@@ -376,52 +376,6 @@
                 "[resourceId('Microsoft.DataFactory/factories/linkedservices', parameters('dataFactories_adf_name'), 'AzureKeyVaultLinkedService')]",
                 "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
               ]
-            },
-            {
-              "type": "Microsoft.DataFactory/factories/linkedservices",
-              "apiVersion": "2018-06-01",
-              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'SynapseLinkedService')]",
-              "properties": {
-                "annotations": [],
-                "type": "AzureSqlDW",
-                "typeProperties": {
-                  "connectionString": {
-                    "type": "AzureKeyVaultSecret",
-                    "store": {
-                      "referenceName": "AzureKeyVaultLinkedService",
-                      "type": "LinkedServiceReference"
-                    },
-                    "secretName": "SynDBConnection"
-                  }
-                }
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.DataFactory/factories/linkedservices', parameters('dataFactories_adf_name'), 'AzureKeyVaultLinkedService')]",
-                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
-              ]
-            },
-            {
-              "type": "Microsoft.DataFactory/factories/linkedservices",
-              "apiVersion": "2018-06-01",
-              "name": "[format('{0}/{1}', parameters('dataFactories_adf_name'), 'SynapseMasterDBLinkedService')]",
-              "properties": {
-                "annotations": [],
-                "type": "AzureSqlDW",
-                "typeProperties": {
-                  "connectionString": {
-                    "type": "AzureKeyVaultSecret",
-                    "store": {
-                      "referenceName": "AzureKeyVaultLinkedService",
-                      "type": "LinkedServiceReference"
-                    },
-                    "secretName": "SynMasterDBConnection"
-                  }
-                }
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.DataFactory/factories/linkedservices', parameters('dataFactories_adf_name'), 'AzureKeyVaultLinkedService')]",
-                "[resourceId('Microsoft.DataFactory/factories', parameters('dataFactories_adf_name'))]"
-              ]
             }
           ],
           "outputs": {
@@ -500,7 +454,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.1318.3566",
-              "templateHash": "17487721749615169261"
+              "templateHash": "1624925915842490978"
             }
           },
           "parameters": {
@@ -521,7 +475,7 @@
             },
             "vaults_BIKeyVault_name": {
               "type": "string",
-              "defaultValue": "[format('kv{0}{1}777', parameters('project_name'), parameters('env'))]"
+              "defaultValue": "[format('kv{0}{1}003', parameters('project_name'), parameters('env'))]"
             },
             "log_analytics_workspace_id": {
               "type": "string"
@@ -646,7 +600,54 @@
                   "ipRules": [],
                   "virtualNetworkRules": []
                 },
-                "accessPolicies": [],
+                "accessPolicies": [
+                  {
+                    "objectId": "[parameters('servers_admin_sid')]",
+                    "permissions": {
+                      "certificates": [
+                        "Get",
+                        "List",
+                        "Update",
+                        "Create",
+                        "Import",
+                        "Delete",
+                        "Recover",
+                        "Backup",
+                        "Restore",
+                        "ManageContacts",
+                        "ManageIssuers",
+                        "GetIssuers",
+                        "ListIssuers",
+                        "SetIssuers",
+                        "DeleteIssuers"
+                      ],
+                      "keys": [
+                        "Get",
+                        "List",
+                        "Update",
+                        "Create",
+                        "Import",
+                        "Delete",
+                        "Recover",
+                        "Backup",
+                        "Restore",
+                        "GetRotationPolicy",
+                        "SetRotationPolicy",
+                        "Rotate"
+                      ],
+                      "secrets": [
+                        "Get",
+                        "List",
+                        "Set",
+                        "Delete",
+                        "Recover",
+                        "Backup",
+                        "Restore"
+                      ]
+                    },
+                    "tenantId": "[parameters('tenantId')]"
+                  }
+                ],
                 "enabledForDeployment": false,
                 "enabledForDiskEncryption": false,
                 "enabledForTemplateDeployment": true,

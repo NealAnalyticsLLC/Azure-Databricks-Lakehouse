@@ -174,51 +174,8 @@ resource adlslinkedservice 'Microsoft.DataFactory/factories/linkedservices@2018-
     ]
   }
 
-  resource sqldwlinkedservice 'Microsoft.DataFactory/factories/linkedservices@2018-06-01' = {
-    name: 'SynapseLinkedService'
-    parent: dataFactories_adf_name_resource
-    properties: {
-      annotations: [
-        ]
-      type: 'AzureSqlDW'
-              typeProperties: {
-                  connectionString: {
-                      type: 'AzureKeyVaultSecret'
-                      store: {
-                          referenceName: 'AzureKeyVaultLinkedService'
-                          type: 'LinkedServiceReference'
-                      }
-                      secretName: 'SynDBConnection'
-                  }
-              }
-    }
-    dependsOn: [
-      akvlinkedservice
-    ]
-  }
 
-  resource sqldwmasterDBlinkedservice 'Microsoft.DataFactory/factories/linkedservices@2018-06-01' = {
-    name: 'SynapseMasterDBLinkedService'
-    parent: dataFactories_adf_name_resource
-    properties: {
-      annotations: [
-        ]
-      type: 'AzureSqlDW'
-              typeProperties: {
-                  connectionString: {
-                      type: 'AzureKeyVaultSecret'
-                      store: {
-                          referenceName: 'AzureKeyVaultLinkedService'
-                          type: 'LinkedServiceReference'
-                      }
-                      secretName: 'SynMasterDBConnection'
-                  }
-              }
-    }
-    dependsOn: [
-      akvlinkedservice
-    ]
-  }
+  
 output adf_name string = dataFactories_adf_name
 output dataFactories_adls_managed_endpoint string = dataFactories_adls_managed_endpoint.name
 output dataFactories_adf_name_resource string = dataFactories_adf_name_resource.name

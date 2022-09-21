@@ -2,14 +2,14 @@ targetScope = 'subscription'
 
 param subscriptionId string = subscription().subscriptionId
 param tenantId string = subscription().tenantId
-param deployment_location string = ''
-param project_name string = ''
+param deployment_location string = 'eastus'
+param project_name string = 'ebidb'
 param env string ='dev'
-param sql_admin_user string = ''
+param sql_admin_user string = 'sqladmin'
 @secure()
-param sql_admin_password string = ''
-param servers_admin_sid string = ''
-param servers_admin_name string = ''
+param sql_admin_password string = 'SASql1234!'
+param servers_admin_sid string = '356cbc1d-a189-4950-957b-3460e4714eb6'
+param servers_admin_name string = 'piyush@nealanalytics.com'
 @description('adding prefix to every resource names')
 var resourceprefix = take(uniqueString(deployment().name),5)
 
@@ -87,7 +87,6 @@ module AzDataFactoryMetadataDeploy 'data-landing-zone/metadata-template.bicep' =
     location:deployment_location
     log_analytics_workspace_id:AzMonitoringDeploy.outputs.log_analytics_workspace_id
     adls_resource_id:AzDatalakeDeploy.outputs.adls_resource_id
-    
     
   }
   dependsOn:[
