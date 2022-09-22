@@ -70,9 +70,9 @@ Following Private endpoints will be created for the following resources
 
 Note:  
 - SQL Credential for Metadata  parameter is used for username/password  
-- Provided username/password is used to create the connection string for DBs for ADF linked services
-
-
+- Provided username/password is used to create the connection string for DBs for ADF linked services  
+      
+       
 **The following configurations are required and needs to be done after deployment:**
 
 1. **Meta Data SQL Database**  
