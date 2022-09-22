@@ -42,7 +42,38 @@ Open the main.bicep file from the downloaded package.
 On the top you’ll see several parameters defined as follows:
 
 ## Configurations
-The following configurations are required and needs to be done after deployment:
+
+**The following configurations are required and automatically gets created with deployment:**
+1.	Key vault Secrets:
+The following secrets would be created in key vault with deployment.
+    - AzureSQLDBConnection - Required to connect Azure SQL DB
+    - ADLSKey - Required to store ADLS keys 
+
+2.	ADF Linked Services (ARM Template):
+Linked services to the following resources will be created through ARM template
+    - Key vault
+    - Data lake
+    - Azure SQL DB
+
+3.	ADF Networking:
+Following Private endpoints will be created for the following resources
+    - Private endpoint for SQL DB
+    - Private endpoint for Data Lake
+    - Private endpoint for the key vault
+
+4.	ADF Permission (ARM template):
+    - SQL DB Contributor access to SQL DB
+    - Blob data contributor to the Data Lake
+
+5.	Diagnostic settings:
+    - Enable all services to log data into log analytics
+
+Note:  
+- SQL Credential for Metadata  parameter is used for username/password  
+- Provided username/password is used to create the connection string for DBs for ADF linked services
+
+
+**The following configurations are required and needs to be done after deployment:**
 
 1. **Meta Data SQL Database**  
 You need to run the SQL script shared with code in Azure SQL DB to create below meta data table.
