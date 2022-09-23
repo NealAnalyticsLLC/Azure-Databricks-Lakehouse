@@ -33,13 +33,41 @@ Resources can also be deployed into your Azure Subscription by using this link.
 
 You can use this [link](https://azure.microsoft.com/en-in/global-infrastructure/geographies/#geographies) to choose from and decide deployment locations **<deployment-location>** according to your requirements.
 
-**Before deploying the code, you’ll have to edit the parameters in the code**
+## Deployment Parameters
 
-Below are the steps to edit the parameters in the main.bicep file.	
+1. **param deploymentLocation string = '\<deployment-location>'**
+This parameter is for the location of the deployment to take place, that is in which Azure region you wish to deploy the resources. Replace <deployment-location> with the value of location you want.
+For e.g., if you want to deploy in EAST US then it will be
+**param deploymentLocation string = 'eastus'**
 
-Step 1: 
-Open the main.bicep file from the downloaded package.
-On the top you’ll see several parameters defined as follows:
+2. **param projectName string = '\<project-name>'**
+This parameter is for the name of the project that you want to give(can be an abbreviation too). Replace **<project-name>** with the name of project you want.
+
+3. **param Environment string ='\<environment of development>'**
+This parameter is for the environment of the development the resources are in. Replace **<environment of development>** with the environment of development for e.g.,
+**dev** for Development environment, **uat** for testing environment and **prod** for Production environment.
+	
+	**NOTE**: The parameters **projectName** and **Environment** value should only have lowercase letters and numbers, no special characters allowed and shouldn't be more than 5-10 letters.
+
+
+4. **param SqlAdminUser string = '\<sqldbserver-user-id>'**
+This parameter is for the username of the SQL db server admin that you want to give. 
+Replace **<sqldbserver-user-id>** with any username of your choice.
+For e.g.,  **param SqlAdminUser string = 'sqladmin'**
+
+5. **param SqlAdminPassword string = '\<sqldbserver-password>'**
+This parameter is for the password of the sql db server that you want to give. 
+Replace **<sqldbserver-password>** with any username of your choice. Please follow this [link](https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?view=sql-server-ver16) to check the password policy for Azure SQL Server.
+
+6. **param SqlServerSID string = '\<sql-sever-admin-sid>'**
+It's the Object Id of User/Group and can be obtained from Azure Active Directory -> Users/Groups ->   Replace **<sql-sever-admin-sid>** with the SID of the person that you want to keep as admin.
+	* Copy the **Object ID** from below, also known as the **SID** and paste it in the parameter section.
+	
+		![Overview](https://github.com/NealAnalyticsLLC/Enterprise-Data-Warehouse-AzureSynapse/blob/dev/piyush/images/Overview.png)
+
+7. **param SqlServerAdminName string = '\<sql-server-admin-emailid>'**
+This parameter is for the email-id of the SQL Server Admin that is required for setting up Azure Active Directory login for SQL Server. Replace **<sql-server-admin-emailid>** with the email-id of the person that you want to keep as admin.
+
 
 ## Configurations
 
