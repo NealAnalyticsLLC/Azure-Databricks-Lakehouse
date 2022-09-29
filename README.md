@@ -71,32 +71,31 @@ This parameter is for the email-id of the SQL Server Admin that is required for 
 
 ## Configurations
 
-**The following configurations are required and automatically gets created with deployment:**
-1.	Key vault Secrets:
+**The following configurations are required and automatically gets created with deployment:**  
+1. **Key vault Secrets:**
 The following secrets would be created in key vault with deployment.
     - AzureSQLDBConnection - Required to connect Azure SQL DB
-    - ADLSKey - Required to store ADLS keys 
-
-2.	ADF Linked Services (ARM Template):
+    - ADLSKey - Required to store ADLS keys   
+2. **ADF Linked Services (ARM Template):**
 Linked services to the following resources will be created through ARM template
     - Key vault
     - Data lake
     - Azure SQL DB
 
-3.	ADF Networking:
+3. **ADF Networking:**
 Following Private endpoints will be created for the following resources
     - Private endpoint for SQL DB
     - Private endpoint for Data Lake
     - Private endpoint for the key vault
 
-4.	ADF Permission (ARM template):
+4. **ADF Permission (ARM template):**
     - SQL DB Contributor access to SQL DB
     - Blob data contributor to the Data Lake
 
-5.	Diagnostic settings:
+5. **Diagnostic settings:**
     - Enable all services to log data into log analytics
 
-Note:  
+**Note:**
 - SQL Credential for Metadata  parameter is used for username/password  
 - Provided username/password is used to create the connection string for DBs for ADF linked services  
       
