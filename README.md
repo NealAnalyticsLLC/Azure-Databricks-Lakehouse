@@ -63,7 +63,7 @@ Replace **<sqldbserver-password>** with any username of your choice. Please foll
 It's the Object Id of User/Group and can be obtained from Azure Active Directory -> Users/Groups ->   Replace **<sql-sever-admin-sid>** with the SID of the person that you want to keep as admin.
 	* Copy the **Object ID** from below, also known as the **SID** and paste it in the parameter section.
 	
-		![Overview](https://github.com/NealAnalyticsLLC/Enterprise-Data-Warehouse-AzureSynapse/blob/dev/piyush/images/Overview.png)
+		![Overview](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Overview.png)
 
 7. **param SqlServerAdminName string = '\<sql-server-admin-emailid>'**
 This parameter is for the email-id of the SQL Server Admin that is required for setting up Azure Active Directory login for SQL Server. Replace **<sql-server-admin-emailid>** with the email-id of the person that you want to keep as admin.
@@ -112,9 +112,14 @@ You need to run the SQL script shared with code in Azure SQL DB to create below 
     Example:
         ```
         INSERT INTO [dbo].[SourceToRaw]  ([ServerName], [DatabaseName], [SchemaName], [TableName], [Query], [ConnectionSecret], [DataLakeContainer], [DataLakeDirectory], [DataLakeFileName])
-        VALUES ('DESKTOPServer', 'Adventure Works', 'SalesLT', 'Address', 'Select * from SalesLT.Address','ADLSConnection', 'Staging', 'AdventureWorks','Address.parquet')
+        VALUES ('DESKTOPServer', 'Adventure Works', 'SalesLT', 'Address', 'Select * from SalesLT.Address','ADLSConnection', 'raw', 'AdventureWorks','Address.parquet')
         ```
-
+    - **metadata** – Purpose of this table is to store the information about the files on which we are having the transformations.  
+    Example:
+        ```
+        INSERT INTO [dbo].[metadata]([SourceContainer], [DataLakeDirectory], [DataLakeFileName], [DestinationContainer], [DestinationDirectory], [DestinationFileName])
+        VALUES ('raw', '', 'Address', 'bronze','9/29/2022','Address')
+        ```
 
 2. **Key vault Secrets**  
 You will need to add one more secret for connecting to the data source. For example, if your data source is On-Prem SQL server then value of secret will be in following format:
