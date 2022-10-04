@@ -27,7 +27,7 @@ After deployment, you will have an Azure Data Lake Storage Gen 2 Registry, Azure
 
 Resources can also be deployed into your Azure Subscription by using this link.
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FNealAnalyticsLLC%2FAzure-Databricks-Lakehouse%2Fdev%2FSanket%2Fdeployment%2Farm-template%2Fjson%2Fmain.json%3Ftoken%3DGHSAT0AAAAAABZJPUBNWDCOEG5RARBHURQ2YZWNZUQ)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FNealAnalyticsLLC%2FAzure-Databricks-Lakehouse%2Fdev%2FSanket%2Fdeployment%2Farm-template%2Fjson%2Fmain.json%3Ftoken%3DGHSAT0AAAAAABZQO4URIC4MGWYA4XMUGPMIYZ345ZQ)
 
 **NOTE (for deploying using PowerShell script):**
 
