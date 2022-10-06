@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "2379538968176728603"
+      "templateHash": "14020343593884017926"
     }
   },
   "parameters": {
@@ -17,33 +17,33 @@
       "type": "string",
       "defaultValue": "[subscription().tenantId]"
     },
-    "deploymentLocation": {
+    "deployment_location": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "eastus"
     },
-    "projectName": {
+    "project_name": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "ebidb"
     },
-    "Environment": {
+    "env": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "dev"
     },
-    "SqlAdminUser": {
+    "sql_admin_user": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "sqladmin"
     },
-    "SqlAdminPassword": {
+    "sql_admin_password": {
       "type": "secureString",
-      "defaultValue": ""
+      "defaultValue": "SASql1234!"
     },
-    "SqlServerSID": {
+    "servers_admin_sid": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "356cbc1d-a189-4950-957b-3460e4714eb6"
     },
-    "SqlServerAdminName": {
+    "servers_admin_name": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "piyush@nealanalytics.com"
     }
   },
   "variables": {
@@ -53,8 +53,8 @@
     {
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2020-10-01",
-      "name": "[format('rg-{0}-datalanding-dev-001', parameters('projectName'))]",
-      "location": "[parameters('deploymentLocation')]",
+      "name": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
+      "location": "[parameters('deployment_location')]",
       "tags": {
         "Environment": "Dev",
         "ProjectName": "NDPF",
@@ -65,8 +65,8 @@
     {
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2020-10-01",
-      "name": "[format('rg-{0}-datagovernance-dev-001', parameters('projectName'))]",
-      "location": "[parameters('deploymentLocation')]",
+      "name": "[format('rg-{0}-datagovernance-dev-001', parameters('project_name'))]",
+      "location": "[parameters('deployment_location')]",
       "tags": {
         "Environment": "Dev",
         "ProjectName": "NDPF",
@@ -77,8 +77,8 @@
     {
       "type": "Microsoft.Resources/resourceGroups",
       "apiVersion": "2020-10-01",
-      "name": "[format('rg-{0}-management-dev-001', parameters('projectName'))]",
-      "location": "[parameters('deploymentLocation')]",
+      "name": "[format('rg-{0}-management-dev-001', parameters('project_name'))]",
+      "location": "[parameters('deployment_location')]",
       "tags": {
         "Environment": "Dev",
         "ProjectName": "NDPF",
@@ -90,7 +90,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('adf-{0}', variables('resourceprefix'))]",
-      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('projectName'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -98,34 +98,34 @@
         "mode": "Incremental",
         "parameters": {
           "project_name": {
-            "value": "[parameters('projectName')]"
+            "value": "[parameters('project_name')]"
           },
           "env": {
-            "value": "[parameters('Environment')]"
+            "value": "[parameters('env')]"
           },
           "subscriptionId": {
             "value": "[parameters('subscriptionId')]"
           },
           "location": {
-            "value": "[parameters('deploymentLocation')]"
+            "value": "[parameters('deployment_location')]"
           },
           "log_analytics_workspace_id": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
           },
           "sqldb_metadata_name": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_db_name.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_db_name.value]"
           },
           "servers_metadata_name": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_server_name.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_server_name.value]"
           },
           "vaults_BIKeyVault_name": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.vaults_BIKeyVault_name.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.vaults_BIKeyVault_name.value]"
           },
           "databricks_workspace": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))).outputs.databricks_workspace.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))).outputs.databricks_workspace.value]"
           },
           "storageAccounts_datalake_name": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_name.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_name.value]"
           }
         },
         "template": {
@@ -391,18 +391,18 @@
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('projectName')))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('metadata-{0}', variables('resourceprefix'))]",
-      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('projectName'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -410,37 +410,37 @@
         "mode": "Incremental",
         "parameters": {
           "servers_admin_sid": {
-            "value": "[parameters('SqlServerSID')]"
+            "value": "[parameters('servers_admin_sid')]"
           },
           "servers_admin_name": {
-            "value": "[parameters('SqlServerAdminName')]"
+            "value": "[parameters('servers_admin_name')]"
           },
           "tenantId": {
             "value": "[parameters('tenantId')]"
           },
           "project_name": {
-            "value": "[parameters('projectName')]"
+            "value": "[parameters('project_name')]"
           },
           "env": {
-            "value": "[parameters('Environment')]"
+            "value": "[parameters('env')]"
           },
           "sql_admin_user": {
-            "value": "[parameters('SqlAdminUser')]"
+            "value": "[parameters('sql_admin_user')]"
           },
           "sql_admin_password": {
-            "value": "[parameters('SqlAdminPassword')]"
+            "value": "[parameters('sql_admin_password')]"
           },
           "subscriptionId": {
             "value": "[parameters('subscriptionId')]"
           },
           "location": {
-            "value": "[parameters('deploymentLocation')]"
+            "value": "[parameters('deployment_location')]"
           },
           "log_analytics_workspace_id": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
           },
           "adls_resource_id": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_resource_id.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_resource_id.value]"
           }
         },
         "template": {
@@ -720,16 +720,16 @@
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('projectName')))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('synapse-{0}', variables('resourceprefix'))]",
-      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('projectName'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -737,16 +737,16 @@
         "mode": "Incremental",
         "parameters": {
           "project_name": {
-            "value": "[parameters('projectName')]"
+            "value": "[parameters('project_name')]"
           },
           "env": {
-            "value": "[parameters('Environment')]"
+            "value": "[parameters('env')]"
           },
           "location": {
-            "value": "[parameters('deploymentLocation')]"
+            "value": "[parameters('deployment_location')]"
           },
           "log_analytics_workspace_id": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
           }
         },
         "template": {
@@ -844,16 +844,16 @@
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('projectName')))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('monitoring-{0}', variables('resourceprefix'))]",
-      "resourceGroup": "[format('rg-{0}-management-dev-001', parameters('projectName'))]",
+      "resourceGroup": "[format('rg-{0}-management-dev-001', parameters('project_name'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -861,10 +861,10 @@
         "mode": "Incremental",
         "parameters": {
           "project_name": {
-            "value": "[parameters('projectName')]"
+            "value": "[parameters('project_name')]"
           },
           "location": {
-            "value": "[parameters('deploymentLocation')]"
+            "value": "[parameters('deployment_location')]"
           }
         },
         "template": {
@@ -922,14 +922,14 @@
         }
       },
       "dependsOn": [
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-management-dev-001', parameters('projectName')))]"
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-management-dev-001', parameters('project_name')))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('storage-{0}', variables('resourceprefix'))]",
-      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('projectName'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -937,16 +937,16 @@
         "mode": "Incremental",
         "parameters": {
           "project_name": {
-            "value": "[parameters('projectName')]"
+            "value": "[parameters('project_name')]"
           },
           "location": {
-            "value": "[parameters('deploymentLocation')]"
+            "value": "[parameters('deployment_location')]"
           },
           "env": {
-            "value": "[parameters('Environment')]"
+            "value": "[parameters('env')]"
           },
           "log_analytics_workspace_id": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
           }
         },
         "template": {
@@ -1148,15 +1148,15 @@
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('projectName')))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('purview-{0}', variables('resourceprefix'))]",
-      "resourceGroup": "[format('rg-{0}-datagovernance-dev-001', parameters('projectName'))]",
+      "resourceGroup": "[format('rg-{0}-datagovernance-dev-001', parameters('project_name'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -1164,16 +1164,16 @@
         "mode": "Incremental",
         "parameters": {
           "project_name": {
-            "value": "[parameters('projectName')]"
+            "value": "[parameters('project_name')]"
           },
           "location": {
-            "value": "[parameters('deploymentLocation')]"
+            "value": "[parameters('deployment_location')]"
           },
           "env": {
-            "value": "[parameters('Environment')]"
+            "value": "[parameters('env')]"
           },
           "log_analytics_workspace_id": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))).outputs.log_analytics_workspace_id.value]"
           }
         },
         "template": {
@@ -1299,15 +1299,15 @@
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datagovernance-dev-001', parameters('projectName')))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-management-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('monitoring-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datagovernance-dev-001', parameters('project_name')))]"
       ]
     },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('contributor-{0}', variables('resourceprefix'))]",
-      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('projectName'))]",
+      "resourceGroup": "[format('rg-{0}-datalanding-dev-001', parameters('project_name'))]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -1318,16 +1318,16 @@
             "value": "[parameters('subscriptionId')]"
           },
           "adf_name": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('adf-{0}', variables('resourceprefix')))).outputs.adf_name.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('adf-{0}', variables('resourceprefix')))).outputs.adf_name.value]"
           },
           "adls_name": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_name.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))).outputs.adls_name.value]"
           },
           "sql_server_name": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_server_name.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))).outputs.sql_server_name.value]"
           },
           "databricks_workspace_name": {
-            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))).outputs.databricks_workspace.value]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))).outputs.databricks_workspace.value]"
           }
         },
         "template": {
@@ -1396,11 +1396,11 @@
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('adf-{0}', variables('resourceprefix')))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('projectName'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('projectName')))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('synapse-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('adf-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('metadata-{0}', variables('resourceprefix')))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}-datalanding-dev-001', parameters('project_name'))), 'Microsoft.Resources/deployments', format('storage-{0}', variables('resourceprefix')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('rg-{0}-datalanding-dev-001', parameters('project_name')))]"
       ]
     }
   ]
