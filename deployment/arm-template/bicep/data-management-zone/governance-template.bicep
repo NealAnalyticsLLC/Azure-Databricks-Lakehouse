@@ -8,7 +8,7 @@ param env string = 'dev'
 param purviewName string = 'pview-${project_name}-${env}'
 param settingName string = 'diagnostics'
 param log_analytics_workspace_id string
-param vaults_BIKeyVault_name string = 'kvpurview${env}104'
+param vaults_BIKeyVault_name string = 'kvpurview${project_name}${env}'
 param tenantId string = subscription().tenantId
 param location string = resourceGroup().location
 

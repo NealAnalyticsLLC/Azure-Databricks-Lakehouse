@@ -40,14 +40,14 @@ resource blob_data_contributor_access_adf 'Microsoft.Authorization/roleAssignmen
   scope:adls
 }
 
-resource blob_data_contributor_access_databricks 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
-  name:guid('ADFBlobDataContributor')
-  properties: {
-    roleDefinitionId: BlobDataContributor
-    principalId: reference(resourceId('Microsoft.Databricks/workspaces',databricks_workspace_name), '2018-04-01', 'Full').identity.principalId
+// resource blob_data_contributor_access_databricks 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
+//   name:guid('ADFBlobDataContributor')
+//   properties: {
+//     roleDefinitionId: BlobDataContributor
+//     principalId: reference(resourceId('Microsoft.Databricks/workspaces',databricks_workspace_name), '2018-04-01', 'Full').identity.principalId
     
-  }
-  scope:adls
-}
+//   }
+//   scope:adls
+// }
 
 

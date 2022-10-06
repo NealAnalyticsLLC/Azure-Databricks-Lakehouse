@@ -95,15 +95,15 @@ resource dataFactories_adf_name_default_vaults_BIKeyVault_name 'Microsoft.DataFa
 
 }
 
-resource dataFactories_adf_name_default_Synapse 'Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints@2018-06-01' = {
-  parent: dataFactories_adf_vnet
-  name: databricks_workspace
-  properties: {
-    groupId: 'sqlServer'
-    privateLinkResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Databricks/workspaces/${databricks_workspace}'
-  }
+// resource dataFactories_adf_name_default_Synapse 'Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints@2018-06-01' = {
+//   parent: dataFactories_adf_vnet
+//   name: databricks_workspace
+//   properties: {
+//     groupId: 'sqlServer'
+//     privateLinkResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Databricks/workspaces/${databricks_workspace}'
+//   }
  
-}
+// }
 
 resource akvlinkedservice 'Microsoft.DataFactory/factories/linkedservices@2018-06-01' = {
   name: 'AzureKeyVaultLinkedService'
