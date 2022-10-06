@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "14216601198110869330"
+      "templateHash": "4385255037859267832"
     }
   },
   "parameters": {
@@ -1165,7 +1165,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.11.1.770",
-              "templateHash": "12359884437725839717"
+              "templateHash": "12643617842081704489"
             }
           },
           "parameters": {
@@ -1195,7 +1195,7 @@
             },
             "vaults_BIKeyVault_name": {
               "type": "string",
-              "defaultValue": "[format('kvpurview{0}104', parameters('env'))]"
+              "defaultValue": "[format('kvpurview-{0}-{1}104', parameters('project_name'), parameters('env'))]"
             },
             "tenantId": {
               "type": "string",
@@ -1319,7 +1319,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.11.1.770",
-              "templateHash": "12174987273124800127"
+              "templateHash": "1290200462320943355"
             }
           },
           "parameters": {
@@ -1362,16 +1362,6 @@
               "properties": {
                 "roleDefinitionId": "[variables('BlobDataContributor')]",
                 "principalId": "[reference(resourceId('Microsoft.DataFactory/factories', parameters('adf_name')), '2018-06-01', 'Full').identity.principalId]"
-              }
-            },
-            {
-              "type": "Microsoft.Authorization/roleAssignments",
-              "apiVersion": "2020-10-01-preview",
-              "scope": "[format('Microsoft.Storage/storageAccounts/{0}', parameters('adls_name'))]",
-              "name": "[guid('DatabricksBlobDataContributor')]",
-              "properties": {
-                "roleDefinitionId": "[variables('BlobDataContributor')]",
-                "principalId": "[reference(resourceId('Microsoft.Databricks/workspaces', parameters('databricks_workspace_name')), '2018-04-01', 'Full').identity.principalId]"
               }
             }
           ]
