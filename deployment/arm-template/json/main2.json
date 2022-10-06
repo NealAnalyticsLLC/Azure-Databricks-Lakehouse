@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "10999002827139919166"
+      "templateHash": "10127610155380800753"
     }
   },
   "parameters": {
@@ -129,7 +129,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.11.1.770",
-              "templateHash": "8836194724609765516"
+              "templateHash": "10013646354151786372"
             }
           },
           "parameters": {
@@ -282,18 +282,6 @@
               "properties": {
                 "groupId": "vault",
                 "privateLinkResourceId": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.KeyVault/vaults/{2}', parameters('subscriptionId'), resourceGroup().name, parameters('vaults_BIKeyVault_name'))]"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.DataFactory/factories/managedVirtualNetworks', parameters('dataFactories_adf_name'), 'default')]"
-              ]
-            },
-            {
-              "type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
-              "apiVersion": "2018-06-01",
-              "name": "[format('{0}/{1}/{2}', parameters('dataFactories_adf_name'), 'default', parameters('databricks_workspace'))]",
-              "properties": {
-                "groupId": "sqlServer",
-                "privateLinkResourceId": "[format('/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.Databricks/workspaces/{2}', parameters('subscriptionId'), resourceGroup().name, parameters('databricks_workspace'))]"
               },
               "dependsOn": [
                 "[resourceId('Microsoft.DataFactory/factories/managedVirtualNetworks', parameters('dataFactories_adf_name'), 'default')]"
