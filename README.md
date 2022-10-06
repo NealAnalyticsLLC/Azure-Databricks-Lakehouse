@@ -124,10 +124,29 @@ You need to run the SQL script shared with code in Azure SQL DB to create below 
 You will need to add one more secret for connecting to the data source. For example, if your data source is On-Prem SQL server then value of secret will be in following format:
 Server=servername;Database=DBName;User Id=username;Password=Pswd;
 
-3. **Create a Cluster**  
-You will have to create a cluster of your preferred after you launch the databricks workspace. There are many cluster configuration options, which are described in detail in cluster configuration.
+3. **Managed private endpoint approval**  
+- The data resources **ADLS**, **Azure SQL DB Server** and **Azure Dedication SQL Pool Server** and **Azure Key Vault** are under ADF managed virtual network for added security.
+- After the ARM template deployment is done, we must approve the managed private endpoints that will be created, to include the resources under the virtual network.
+- Follow the below steps to approve the connections (this example is for one resource-ADLS, follow the same steps for rest of the resources):
+	- **Step 1:** Go to the ADLS resource and go to the **Networking section.**
+	- **Step 2:** Under the Private endpoint connections pane, select the pending connection and approve it.
 
-4. **Install Modules on to the Cluster**  
+		![Adls Networking](./images/Adls%20Networking.png)
+	- **Step 3:** Do the same for rest of the resources, Azure SQL DB Server, Azure Key Vault and Azure Dedication SQL Pool Server
+
+4. **Azure Key Vault Access policies**  
+In data landing repository Go to the Azure key vault->Access policies-> Create -> select Get and List under Secret permissions -> under principle select the data factory created -> Review and Create
+	
+5. **SQL Server Access**  
+Go to the SQL server-> networking -> select allow azure services and resources to access this server.
+
+6. **Enable Interactive authoring**  
+In data factory go to manage section -> click on the  integration runtime and click on AutoResolveIntegrationRuntime under virtual network  enable the Interactive authoring if not.
+
+7. **Create a Cluster**    
+You will have to create a cluster of your preferred after you launch the databricks workspace. There are many cluster configuration options, which are described in detail in [cluster configuration](https://learn.microsoft.com/en-us/azure/databricks/clusters/configure).
+
+8. **Install Modules on to the Cluster**  
     Step1: Select the cluster created.  
     Step2: Select Libraries => Install New => Select Library Source = "Maven" => Coordinates => Search Packages => Select Maven Central => Search for the package required. Example: (GDAL) => Select the version (3.0.0) required => Install
 
