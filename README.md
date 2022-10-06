@@ -149,6 +149,10 @@ You will have to create a cluster of your preferred after you launch the databri
 8. **Install Modules on to the Cluster**  
     Step1: Select the cluster created.  
     Step2: Select Libraries => Install New => Select Library Source = "Maven" => Coordinates => Search Packages => Select Maven Central => Search for the package required. Example: (GDAL) => Select the version (3.0.0) required => Install
+    
+9. **Create Databricks Linked Service**
+    To create the linked service go to the data factory created after deployment-> manage section-> click on the linked service-> click on new
+    you will find more details on how to create databricks linked service [here](https://learn.microsoft.com/en-us/azure/data-factory/transform-data-using-databricks-notebook#create-an-azure-databricks-linked-service)
 
 ## Data Pipelines
 ### How to build a ADF pipeline
