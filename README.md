@@ -187,12 +187,11 @@ You can refer below screenshot to create pipeline to copy data from source and s
     ![Master Pipeline](./images/Master%20Pipeline.png)
 
 
-There are 4 types of pipelines that can be build depending on the requirements.
+There are 3 types of pipelines that can be build depending on the requirements.
 
 1. Historical Pipelines
 2. Incremental Pipelines
 3. Archive pipelines
-4. Quality Check Pipelines
 
 ## Data Bricks Notebooks
 To use the containers from ADLS first we have to mount those in Data Bricks. You can refer to the below link to mount your containers.  
