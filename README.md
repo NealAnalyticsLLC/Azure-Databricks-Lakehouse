@@ -63,7 +63,7 @@ Replace **<sqldbserver-password>** with any username of your choice. Please foll
 It's the Object Id of User/Group and can be obtained from Azure Active Directory -> Users/Groups ->   Replace **<sql-sever-admin-sid>** with the SID of the person that you want to keep as admin.
 	* Copy the **Object ID** from below, also known as the **SID** and paste it in the parameter section.
 	
-		![Overview](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Overview.png)
+		![Overview](./images/Overview.png)
 
 7. **param SqlServerAdminName string = '\<sql-server-admin-emailid>'**
 This parameter is for the email-id of the SQL Server Admin that is required for setting up Azure Active Directory login for SQL Server. Replace **<sql-server-admin-emailid>** with the email-id of the person that you want to keep as admin.
@@ -105,19 +105,27 @@ Following Private endpoints will be created for the following resources
 1. **Meta Data SQL Database**  
 You need to run the SQL script shared with code in Azure SQL DB to create below meta data table.
 
-    ![MetaData Table](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/MetaData%20Table.png)
+    ![MetaData Table](./images/MetaData%20Table.png)
 
     - **SourceToRaw** – Purpose of this table is to store source related details and data lake storage details which will be useful in data pipeline to copy data from source to ADLS.
     Example:
         ```
-        INSERT INTO [dbo].[SourceToRaw]  ([ServerName], [DatabaseName], [SchemaName], [TableName], [Query], [ConnectionSecret], [DataLakeContainer], [DataLakeDirectory], [DataLakeFileName])
-        VALUES ('DESKTOPServer', 'Adventure Works', 'SalesLT', 'Address', 'Select * from SalesLT.Address','ADLSConnection', 'raw', 'AdventureWorks','Address.parquet')
+        INSERT INTO[dbo].[SourceToRaw]([DatabaseName],[SchemaName],[TableName],[Delta_Column],[Query],[ConnectionSecret],[DataLakeContainer],[DataLakeDirectory],[DataLakeFileName])
+        VALUES('UK','dbo','uk_renewable_energy','DateModified','Select*from[dbo].[uk_renewable_energy]','blah','Raw','UK','uk_renewable_energy')
         ```
-    - **metadata** – Purpose of this table is to store the information about the files on which we are having the transformations.  
+   
+    - **RawToBronze** – Purpose of this table is to store the information about the files we want to transform and store in Bronze container.  
     Example:
         ```
-        INSERT INTO [dbo].[metadata]([SourceContainer], [DataLakeDirectory], [DataLakeFileName], [DestinationContainer], [DestinationDirectory], [DestinationFileName])
-        VALUES ('raw', '', 'Address', 'bronze','9/29/2022','Address')
+        INSERT INTO[dbo].[RawToBronze]([RawDirectory],[RawTableName],[RawTableFormat],[RawTablePrimaryKey],[BronzeDirectory],[BronzeTableName])
+        VALUES('UK','uk_renewable_energy','parquet','Year','UK','uk_renewable_energy')
+        ```
+
+     - **BronzeToSilver** – Purpose of this table is to store the information about the files we want to transform from bronze and store in silver container.  
+    Example:
+        ```
+        INSERT INTO[dbo].[BronzeToSilver]([BronzeDirectory],[BronzeTableName],[BronzeTablePrimaryKey],[SilverDirectory],[SilverTableName])
+        VALUES('UK','uk_renewable_energy','Year','UK','uk_renewable_energy')
         ```
 
 2. **Key vault Secrets**  
@@ -140,7 +148,7 @@ Consider, you are creating pipeline for On Premises SQL server as source, then b
 
 2. For connecting to the source data server, create Linked Service which will connect to source using credentials stored in azure key vault secret. Fetch the connection secret using Key vault linked service which is created in deployment as shown in below image.
 
-    ![Key vault](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Key%20vault.png)
+    ![Key vault](./images/Key%20vault.png)
 
     You can refer below link for creation of linked service –  
     <https://docs.microsoft.com/en-us/azure/data-factory/concepts-linked-services?tabs=data-factory>
@@ -153,7 +161,7 @@ Follow below link for more details about creating dataset.
 <https://docs.microsoft.com/en-us/azure/data-factory/quickstart-create-data-factory-portal>
 You can refer below screenshot to create pipeline to copy data from source and store into Databricks delta tables. In this pipeline data is copied from On-Prem SQL server using input from Azure SQL Db and this data is stored into ADLS. Further data is transformed and stored into different layers of delta tables like Bronze, Silver and Gold.
 
-    ![Master Pipeline](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Master%20Pipeline.png)
+    ![Master Pipeline](./images/Master%20Pipeline.png)
 
 
 There are 4 types of pipelines that can be build depending on the requirements.
@@ -189,7 +197,7 @@ When you publish a report to the Power BI service, you can enable users to acces
     - Go to the underlying Azure Databricks dataset for the report in the Power BI service, expand Data source credentials, and click Edit credentials.
     - On the configuration dialog, select Report viewers can only access this data source with their own Power BI identities using Direct Query and click Sign in.
     	
-        ![Config](https://github.com/NealAnalyticsLLC/Azure-Databricks-Lakehouse/blob/dev/Sanket/images/Power%20BI.png)
+        ![Config](./images/Power%20BI.png)
 
 
 With this option selected, access to the data source is handled using DirectQuery and managed using the Azure AD identity of the user who is accessing the report. If you don’t select this option, only you, as the user who published the report, have access to the Azure Databricks data source.
