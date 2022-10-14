@@ -33,10 +33,9 @@ configs = {"fs.azure.account.auth.type": "OAuth",
 # Define the variables used for creating connection strings
 adlsAccountName = "adlsndpfdev001"
 adlsContainerName = "raw"
-adlsFolderName = "AdventureWorks"
 mountPoint = "/mnt/raw"
 
-source = "abfss://" + adlsContainerName + "@" + adlsAccountName + ".dfs.core.windows.net/" + adlsFolderName
+source = "abfss://" + adlsContainerName + "@" + adlsAccountName + ".dfs.core.windows.net/" 
  
 # Mount ADLS Storage to DBFS only if the directory is not already mounted
 if not any(mount.mountPoint == mountPoint for mount in dbutils.fs.mounts()):
