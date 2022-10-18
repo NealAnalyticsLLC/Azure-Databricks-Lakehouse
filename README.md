@@ -111,7 +111,7 @@ You need to run the SQL script shared with code in Azure SQL DB to create below 
     Example:
         ```
         INSERT INTO[dbo].[SourceToRaw]([DatabaseName],[SchemaName],[TableName],[Delta_Column],[Query],[ConnectionSecret],[DataLakeContainer],[DataLakeDirectory],[DataLakeFileName])
-        VALUES('UK','dbo','uk_renewable_energy','DateModified','Select*from[dbo].[uk_renewable_energy]','blah','Raw','UK','uk_renewable_energy')
+        VALUES('UK','dbo','uk_renewable_energy','DateModified','Select*from[dbo].[uk_renewable_energy]','ConnectionSecret','Raw','UK','uk_renewable_energy')
         ```
    
     - **RawToBronze** – Purpose of this table is to store the information about the files we want to transform and store in Bronze container.  
