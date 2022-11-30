@@ -3,6 +3,14 @@
 
 # COMMAND ----------
 
+dbutils.widgets.text('ADLS Account Name','')
+
+# COMMAND ----------
+
+adlsAccountName = dbutils.widgets.get('ADLS Account Name')
+
+# COMMAND ----------
+
 # Application (Client) ID
 applicationId = dbutils.secrets.get(scope="EnterpriseBIScope",key="ClientID")
  
@@ -31,7 +39,7 @@ configs = {"fs.azure.account.auth.type": "OAuth",
 # Python code to mount and access Azure Data Lake Storage Gen2 Account from Azure Databricks with Service Principal and OAuth
  
 # Define the variables used for creating connection strings
-adlsAccountName = "adlsndpfdev001"
+adlsAccountName = "dlsadbtestd1uat"
 adlsContainerName = "raw"
 mountPoint = "/mnt/raw"
 
@@ -51,7 +59,7 @@ if not any(mount.mountPoint == mountPoint for mount in dbutils.fs.mounts()):
 # COMMAND ----------
 
 # Define the variables used for creating connection strings
-adlsAccountName = "adlsndpfdev001"
+
 adlsContainerName = "bronze"
 mountPoint = "/mnt/bronze"
  
@@ -71,7 +79,6 @@ if not any(mount.mountPoint == mountPoint for mount in dbutils.fs.mounts()):
 # COMMAND ----------
 
 # Define the variables used for creating connection strings
-adlsAccountName = "adlsndpfdev001"
 adlsContainerName = "silver"
 mountPoint = "/mnt/silver"
 
@@ -91,7 +98,6 @@ if not any(mount.mountPoint == mountPoint for mount in dbutils.fs.mounts()):
 # COMMAND ----------
 
 # Define the variables used for creating connection strings
-adlsAccountName = "adlsndpfdev001"
 adlsContainerName = "gold"
 mountPoint = "/mnt/gold"
  

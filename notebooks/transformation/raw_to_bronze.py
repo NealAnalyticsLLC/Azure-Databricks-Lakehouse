@@ -60,16 +60,11 @@ writepath = "/mnt/bronze/"+BronzeDirectory+'/'+BronzeTableName
 
 # COMMAND ----------
 
-server_name = "sqldbserver-dlhdemo8-uat.database.windows.net"
-database_name = "sqldb-dlhdemo8-uat"
-db_admin_username = "sqladmin"
-db_admin_password = "Snktm@43"
+sqlconnection = dbutils.secrets.get(scope = "EnterpriseBIScope", key = "adbsqlconnection")
 
 # COMMAND ----------
 
-cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + 
-                        server_name + ';DATABASE='+ database_name +';UID=' + db_admin_username + 
-                        ';PWD='+ db_admin_password)
+cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};' + sqlconnection)
 cursor = cnxn.cursor()
 
 # COMMAND ----------
@@ -132,4 +127,3 @@ else:
 
     spark.sql(merge_statement)
     
-
